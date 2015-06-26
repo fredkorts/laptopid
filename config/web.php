@@ -41,20 +41,6 @@ $config = [
 				'edit/page/<id:\d+>' => 'site/edit-page',
             ],
         ],
-        'view' => [
-	        'renderers' => [
-		        'twig' => [
-			        'class' => 'yii\twig\ViewRenderer',
-			        // set cachePath to false in order to disable template caching
-			        'cachePath' => '@runtime/Twig/cache',
-			        // Array of twig options:
-			        'options' => [
-			        	'auto_reload' => true,
-			        ],
-			        // ... see ViewRenderer for more options
-		        ],
-	        ],
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
