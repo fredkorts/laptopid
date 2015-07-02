@@ -8,9 +8,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\Product;
+use app\models\ProductForm;
 
-class SiteController extends Controller
+class ProductController extends Controller
 {
     public function behaviors()
     {
@@ -50,6 +50,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+		//$model = Product::findOne(1);
+		//var_dump($model);
+		//die;
+		//if($model == null)
+		//	return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+        //return $this->render('product', [ 'model' => $model]);
 		return $this->render('index');
     }
 
@@ -137,8 +143,8 @@ class SiteController extends Controller
     public function actionTooted()
     {
 		$model = Product::findOne(1);
-		//var_dump($model);
-		//die;
+		var_dump($model);
+		die;
 		if($model == null)
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
         return $this->render('product', [ 'model' => $model]);
