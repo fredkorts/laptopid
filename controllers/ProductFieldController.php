@@ -8,12 +8,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\Product;
-use app\models\ProductField;
-use app\models\Field;
-use app\models\FieldType;
+use app\models\ProductForm;
 
-class SiteController extends Controller
+class ProductController extends Controller
 {
     public function behaviors()
     {
@@ -53,6 +50,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+		//$model = Product::findOne(1);
+		//var_dump($model);
+		//die;
+		//if($model == null)
+		//	return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+        //return $this->render('product', [ 'model' => $model]);
 		return $this->render('index');
     }
 
@@ -136,38 +139,15 @@ class SiteController extends Controller
     {
         return $this->render('soodus');
     }
-	
+
     public function actionTooted()
-    {	
-		//$produktid = Product::find()->with('profield')->where(['active' => 1])->all();
-		$produktid = Product::find()->with('product_field')->where(['active' => 1])->all();
-		//$produktid = Product::find()->where(['active' => 1])->all();
-		if($produktid == null)
-			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
-		
-		foreach ($produktid as $p) {
-			var_dump($p->getRelatedRecords());
-		}
-		/*foreach ($produktid as $p) {
-			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
-			foreach ($product_fields as $pf) {
-				$fields = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-				$pf->setAttribute('fields', $fields);
-			}
-			$p->setAttribute('product_fields', $product_fields);
-			//var_dump($p->getRelatedRecords());
-		}*/
-		
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		//$produktid->komponendid = "test";
-		var_dump($produktid);
+    {
+		$model = Product::findOne(1);
+		var_dump($model);
 		die;
-		
-        return $this->render('product', [ 'model' => $produktid]);
+		if($model == null)
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+        return $this->render('product', [ 'model' => $model]);
         //return $this->render('product');
     }
 

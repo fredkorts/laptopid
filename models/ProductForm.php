@@ -28,7 +28,8 @@ class ProductForm extends Model
         	['mfr', 'required'],
             ['model', 'required'],
 			// must be less or equal than 120 characters
-			['mfr', 'string', 'max' => 40], // mfr = manufacturer
+			['mfr', 'string'], // mfr = manufacturer
+			//[['mfr'], 'string', 'max' => 40], // mfr = manufacturer
 			['model', 'string', 'max' => 40],
 			['price', 'number'],
 			['cut_price', 'number'],
