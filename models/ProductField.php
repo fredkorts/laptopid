@@ -16,7 +16,7 @@ class ProductField extends ActiveRecord
     public function rules()
     {
         return [
-			['id', 'unique'],
+			['id', 'primary'],
 			['product_id', 'number'],
 			['field_id', 'number'],
         ];

@@ -21,6 +21,7 @@ class ProductFieldForm extends Model
     public function rules()
     {
         return [
+        	['id', 'primary'],
 			['product_id', 'number'],
 			['field_id', 'number'],
         ];

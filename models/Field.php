@@ -18,6 +18,7 @@ class Field extends ActiveRecord
     public function rules()
     {
         return [
+			['id', 'primary'],
 			['type_id', 'number'],
 			['name', 'string', 'max' => 40],
 			['model', 'string', 'max' => 40],

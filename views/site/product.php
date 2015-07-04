@@ -1,18 +1,12 @@
 <?php
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-$this->title = 'About';
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="site-about">
+$this->title = 'Tooted';
+$this->params['breadcrumbs'][] = $this->title;?>
+<div class="site-product">
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-	<?php //var_dump($model); ?>
 		<?php foreach($model as $m)
 		{
-			var_dump($m);
 			echo 'Tootja: '.$m->getAttribute('mfr').'<br>';
 			echo 'Mudel: '.$m->getAttribute('model').'<br>';
 			echo 'Hind: '.$m->getAttribute('price').'<br>';
@@ -20,6 +14,20 @@ $this->params['breadcrumbs'][] = $this->title;
 			echo 'Stock: '.$m->getAttribute('stock').'<br>';
 			echo 'Active: '.$m->getAttribute('active').'<br>';
 			echo 'Info: '.$m->getAttribute('description').'<br><br>';
+			
+			for($i = 0; $i < count($m->field); $i++)
+			{
+				for($t = 0; $t < count($m->field_type); $t++)
+				{
+					if($m->field_type[$t][0]->getAttribute('id') == $m->field[$i][0]->getAttribute('type_id'))
+					{
+						echo $m->field_type[$t][0]->getAttribute('name').': ';
+					}
+				}
+				echo $m->field[$i][0]->getAttribute('name').' ';
+				echo $m->field[$i][0]->getAttribute('model').'<br>';
+			}
+			echo '<br><br>';
 		}?>
     </p>
 

@@ -53,7 +53,23 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-		return $this->render('index');
+		$produktid = Product::find()->with('product_field')->where(['active' => 1])->andWhere(['>=', 'cut_price', '1'])->all();
+		if($produktid == null)
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+			
+		foreach ($produktid as $p) {
+			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$p->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$p->field_type[] = $field_type;
+				}
+			}
+			$p->product_field = $product_fields;
+		}
+        return $this->render('index', [ 'model' => $produktid]);
     }
 
     public function actionLogin()
@@ -139,36 +155,23 @@ class SiteController extends Controller
 	
     public function actionTooted()
     {	
-		//$produktid = Product::find()->with('profield')->where(['active' => 1])->all();
-		$produktid = Product::find()->with('product_field')->where(['active' => 1])->all();
-		//$produktid = Product::find()->where(['active' => 1])->all();
+		$produktid = Product::find()->with('product_field')->where(['active' => 1, 'cut_price' => 0])->all();
 		if($produktid == null)
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
-		
-		/*foreach ($produktid as $p) {
-			var_dump($p);
-		}*/
+			
 		foreach ($produktid as $p) {
 			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
-			//foreach ($product_fields as $pf) {
-			//	$fields = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-			//	$pf->link('field', $fields);
-			//}
-			$p->link('product_field', $product_fields);
-			//var_dump($p->getRelatedRecords());
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$p->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$p->field_type[] = $field_type;
+				}
+			}
+			$p->product_field = $product_fields;
 		}
-		
-		/*echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		echo "XXXXXXXXXXXXXXXXX";
-		//$produktid->komponendid = "test";
-		var_dump($produktid);
-		die;*/
-		
         return $this->render('product', [ 'model' => $produktid]);
-        //return $this->render('product');
     }
 
     public function actionKasulikku()

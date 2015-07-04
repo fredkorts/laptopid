@@ -14,6 +14,9 @@ class Product extends ActiveRecord
     public $stock;
     public $active;
     public $description;
+    public $product_field;
+	public $field;
+	public $field_type;
 	/**
      * @return array the validation rules.
      */
