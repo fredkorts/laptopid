@@ -3,11 +3,15 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
+$connection = Yii::$app->db;
+$command = $connection->createCommand("SELECT title, content FROM page WHERE main_menu = 1 AND route = 'kontakt'");
+$page = $command->queryOne();
+$this->title = $page['title'];
+
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\ContactForm */
 
-$this->title = 'Kontakt';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-kontakt">
@@ -31,26 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php else: ?>
-
-    <p>
-		Sülearvutid OÜ<br>
-		E-mail: <a href="mailto:laptopid@laptopid.ee">laptopid@laptopid.ee</a><br>
-		Telefon: 6 835 543<br>
-		GSM: 56 665 943<br>
-		Avatud: Tööpäeviti 10.00-18.00<br>
-		<br>
-		Aadress: Kivimurru 34, 11411, Tallinn (Sikupilli keskuse taga) <a href="http://www.laptopid.ee/images/kaart.jpg">KAART</a><br>
-		Sissepääs maja tagant, parkimine tasuta.<br>
-		<br>
-		Laptopid.ee on tegutsenud üle 10 aasta, oleme Eesti suurim kvaliteetsete äriklassi sülearvutite müüja.<br>
-		Meie valikust leiad ainult vastupidavad sülearvutid ning neid on võimalik kohapeal, hubases sülearvutite salongis, vaadata-katsuda ja muidugi ka osta.<br>
-		Ekspertidena oleme kokku puutunud kõigi meil müügis olevate sülearvutitega, mistõttu oskame nende omadustest rääkida väga põhjalikult ning leiame kiirelt just Teie vajadustele sobiva mudeli. Laoseisu kontrolliks palume helistada.<br>
-		
-		<a target="_new" href="http://www.dell.com"><img src="http://www.laptopid.ee/images/dellpartner.jpg"></a>
-		<a target="_new" href="http://www.lenovo.com"><img src="http://www.laptopid.ee/images/lenovopartner.jpg"></a>
-		<a target="_new" href="http://www.hp.com"><img src="http://www.laptopid.ee/images/hppartner.jpg"></a>
-    </p>
-
+	<?php echo $page['content'] ?>
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>

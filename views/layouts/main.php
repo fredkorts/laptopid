@@ -4,6 +4,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\db;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -32,10 +33,46 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+			$connection = Yii::$app->db;
+			$command = $connection->createCommand("SELECT * FROM page WHERE main_menu = 1");
+			$pages = $command->queryAll();
+			
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Soodus', 'url' => ['/site/index']],
+                    Yii::$app->user->isGuest ?
+                        ['label' => 'Login', 'url' => ['/site/login']] :
+                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                            'url' => ['/site/logout'],
+                            'linkOptions' => ['data-method' => 'post']],
+                ],
+            ]);
+			foreach($pages as $p)
+			{
+				//$items[] = ];			
+				echo Nav::widget([
+					'options' => ['class' => 'navbar-nav navbar-right'],
+					'items' => [
+						['label' => $p['label'], 'url' => ['/site/'.$p['route']]
+					],
+				]]);
+			}			
+			echo Nav::widget([
+				'options' => ['class' => 'navbar-nav navbar-right'],
+				'items' => [
+					['label' => 'Soodus', 'url' => ['/site/index']],
+					['label' => 'Tooted', 'url' => ['/site/tooted']],
+				],
+			]);
+			
+			//var_dump($items);die;
+			
+            /*echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => [
+					$items,*/
+                    /*
+					['label' => 'Soodus', 'url' => ['/site/index']],
                     ['label' => 'Tooted', 'url' => ['/site/tooted']],
                     ['label' => 'Kasulikku', 'url' => ['/site/kasulikku']],
                     ['label' => 'Järelmaks', 'url' => ['/site/jarelmaks']],
@@ -44,14 +81,16 @@ AppAsset::register($this);
                     ['label' => 'Remont', 'url' => ['/site/remont']],
                     ['label' => 'Ekraani vahetus', 'url' => ['/site/ekraanivahetus']],
                     ['label' => 'Boonused', 'url' => ['/site/boonused']],
-                    ['label' => 'Kontakt', 'url' => ['/site/kontakt']],
-                    Yii::$app->user->isGuest ?
+                    ['label' => 'Kontakt', 'url' => ['/site/kontakt']],*/
+                    /*Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
-            ]);
+            ]);*/
+			//var_dump(Nav::widget);
+			
             NavBar::end();
         ?>
 

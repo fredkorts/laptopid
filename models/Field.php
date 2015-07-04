@@ -25,11 +25,21 @@ class Field extends ActiveRecord
 			['price', 'number'],
         ];
     }
+	public function fields()
+	{
+		return ['type_id', 'name', 'model', 'value', 'price'];
+	}
 	
     public function getFieldType()
     {
         return $this->hasOne(FieldType::className(), ['id' => 'type_id']);
     }
+	
+	public function getproductfield()
+	{
+		$product_fields = ProductField::find()->where(['field_id' => $this->id])->all();
+		return $product_fields;
+	}
 	
 	public function getSafeName()
 	{

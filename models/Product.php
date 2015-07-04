@@ -20,6 +20,7 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
+        	['id', 'primary'],
         	['mfr', 'required'],
             ['model', 'required'],
 			// must be less or equal than 120 characters
@@ -44,10 +45,10 @@ class Product extends ActiveRecord
 		return preg_replace('/-+/', '-', $url);
 	}
 	
-	public function getProduct_field() {
+	/*public function getProduct_field() {
 		return $this->hasMany(ProductField::className(), ['id' => 'product_id'])
 		  ->viaTable('product_field', ['product_id' => 'id']);
-	}
+	}*/
 	/*public function getProfield() {
 		return $this->hasMany(ProductField::className(), ['id' => 'product_id'])
 		  ->viaTable('product_field', ['product_id' => 'id']);
@@ -55,10 +56,10 @@ class Product extends ActiveRecord
 	/*public function getProfield() {
 		return $this->hasMany(ProductField::className(), ['product_id' => 'id']);
 	}*/
-    /*public function getProductField()
+    public function getProduct_field()
     {
         return $this->hasMany(ProductField::className(), ['product_id' => 'id']);
-    }*/
+    }
 	
 	
 }

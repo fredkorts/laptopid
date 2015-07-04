@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php //var_dump($model); ?>
 		<?php foreach($model as $m)
 		{
+			var_dump($m);
 			echo 'Tootja: '.$m->getAttribute('mfr').'<br>';
 			echo 'Mudel: '.$m->getAttribute('model').'<br>';
 			echo 'Hind: '.$m->getAttribute('price').'<br>';

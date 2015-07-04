@@ -145,27 +145,27 @@ class SiteController extends Controller
 		if($produktid == null)
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
 		
-		foreach ($produktid as $p) {
-			var_dump($p->getRelatedRecords());
-		}
 		/*foreach ($produktid as $p) {
-			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
-			foreach ($product_fields as $pf) {
-				$fields = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-				$pf->setAttribute('fields', $fields);
-			}
-			$p->setAttribute('product_fields', $product_fields);
-			//var_dump($p->getRelatedRecords());
+			var_dump($p);
 		}*/
+		foreach ($produktid as $p) {
+			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+			//foreach ($product_fields as $pf) {
+			//	$fields = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+			//	$pf->link('field', $fields);
+			//}
+			$p->link('product_field', $product_fields);
+			//var_dump($p->getRelatedRecords());
+		}
 		
-		echo "XXXXXXXXXXXXXXXXX";
+		/*echo "XXXXXXXXXXXXXXXXX";
 		echo "XXXXXXXXXXXXXXXXX";
 		echo "XXXXXXXXXXXXXXXXX";
 		echo "XXXXXXXXXXXXXXXXX";
 		echo "XXXXXXXXXXXXXXXXX";
 		//$produktid->komponendid = "test";
 		var_dump($produktid);
-		die;
+		die;*/
 		
         return $this->render('product', [ 'model' => $produktid]);
         //return $this->render('product');

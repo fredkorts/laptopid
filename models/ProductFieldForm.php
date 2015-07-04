@@ -13,6 +13,7 @@ class ProductFieldForm extends Model
     public $id;
 	public $product_id;
 	public $field_id;
+	public $fields;
 
     /**
      * @return array the validation rules.
