@@ -1,4 +1,5 @@
 <?php
+//test
 use yii\helpers\Html;
 $connection = Yii::$app->db;
 $command = $connection->createCommand("SELECT title, content FROM page WHERE main_menu = 1 AND route = 'remont'");
