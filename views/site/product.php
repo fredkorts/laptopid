@@ -5,8 +5,7 @@ $this->params['breadcrumbs'][] = $this->title;?>
 <div class="site-product">
     <h1><?= Html::encode($this->title) ?></h1>
     <p>
-		<?php foreach($model as $m)
-		{
+		<?php foreach($model as $m) {
 			echo 'Tootja: '.$m->getAttribute('mfr').'<br>';
 			echo 'Mudel: '.$m->getAttribute('model').'<br>';
 			echo 'Hind: '.$m->getAttribute('price').'<br>';
@@ -15,17 +14,17 @@ $this->params['breadcrumbs'][] = $this->title;?>
 			echo 'Active: '.$m->getAttribute('active').'<br>';
 			echo 'Info: '.$m->getAttribute('description').'<br><br>';
 			
-			for($i = 0; $i < count($m->field); $i++)
-			{
-				for($t = 0; $t < count($m->field_type); $t++)
-				{
-					if($m->field_type[$t][0]->getAttribute('id') == $m->field[$i][0]->getAttribute('type_id'))
-					{
+			for($i = 0; $i < count($m->field); $i++) {
+				for($t = 0; $t < count($m->field_type); $t++) {
+					if($m->field_type[$t][0]->getAttribute('id') == $m->field[$i][0]->getAttribute('type_id')) {
 						echo $m->field_type[$t][0]->getAttribute('name').': ';
 					}
 				}
 				echo $m->field[$i][0]->getAttribute('name').' ';
 				echo $m->field[$i][0]->getAttribute('model').'<br>';
+			}
+			if(!Yii::$app->user->isGuest) {
+				echo '<a href="/index.php/product/kopeeri/'.$m->getAttribute('id').'">Kopeeri toode</a>';
 			}
 			echo '<br><br>';
 		}?>

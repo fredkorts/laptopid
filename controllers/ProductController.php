@@ -8,7 +8,12 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Product;
 use app\models\ProductForm;
+use app\models\ProductField;
+use app\models\ProductFieldForm;
+use app\models\Field;
+use app\models\FieldType;
 
 class ProductController extends Controller
 {
@@ -57,6 +62,56 @@ class ProductController extends Controller
 		//	return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
         //return $this->render('product', [ 'model' => $model]);
 		return $this->render('index');
+    }
+    public function actionKopeeri()
+    {
+		//TODO 5.07.2015 Caupo - Checkida, kas kasutaja on Admin õigustega
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$product = Product::findOne($id);
+		$product->save(false);
+		$product_field = ProductField::find()->where(['product_id' => $id])->all();
+		//var_dump($product->getAttribute('mfr'));die;
+		$new_product = new Product();
+		$new_product->init();
+		$new_product->setAttribute('mfr', $product->getAttribute('mfr'));
+		$new_product->setAttribute('model', $product->getAttribute('model'));
+		$new_product->setAttribute('price', $product->getAttribute('price'));
+		$new_product->setAttribute('cut_price', $product->getAttribute('cut_price'));
+		$new_product->setAttribute('stock', $product->getAttribute('stock'));
+		$new_product->setAttribute('active', $product->getAttribute('active'));
+		$new_product->setAttribute('description', $product->getAttribute('description'));
+		$new_product->save(false);
+		//var_dump($product);
+		//echo "__________________________________";
+		//var_dump($new_product);die;
+		foreach($product_field as $pf) {
+			$new_product_field = new ProductField();
+			$new_product_field->setAttribute('product_id', $new_product->getAttribute('id'));
+			$new_product_field->setAttribute('field_id', $pf->getAttribute('field_id'));
+			$new_product_field->save(false);
+		}
+		
+		//------------------------------------
+		
+		$produktid = Product::find()->with('product_field')->where(['active' => 1])->andWhere(['>=', 'cut_price', '1'])->all();
+		if($produktid == null)
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+			
+		foreach ($produktid as $p) {
+			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$p->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$p->field_type[] = $field_type;
+				}
+			}
+			$p->product_field = $product_fields;
+		}
+		// TODO 5.07.2015 Caupo - SetFlash, et toode kopeeritud vms...
+        return $this->render('/site/index', [ 'model' => $produktid]);
+		//return $this->render('/site/index');
     }
 
     public function actionLogin()
@@ -140,7 +195,7 @@ class ProductController extends Controller
         return $this->render('soodus');
     }
 
-    public function actionTooted()
+    /*public function actionTooted()
     {
 		$model = Product::findOne(1);
 		var_dump($model);
@@ -149,7 +204,7 @@ class ProductController extends Controller
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
         return $this->render('product', [ 'model' => $model]);
         //return $this->render('product');
-    }
+    }*/
 
     public function actionKasulikku()
     {

@@ -26,6 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;?>
 				echo $m->field[$i][0]->getAttribute('name').' ';
 				echo $m->field[$i][0]->getAttribute('model').'<br>';
 			}
+			if(!Yii::$app->user->isGuest) {
+				echo '<a href="/index.php/product/kopeeri/'.$m->getAttribute('id').'">Kopeeri toode</a>';
+			}
 			echo '<br><br>';
 		}?>
 

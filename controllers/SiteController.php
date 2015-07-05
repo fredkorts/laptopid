@@ -12,6 +12,8 @@ use app\models\Product;
 use app\models\ProductField;
 use app\models\Field;
 use app\models\FieldType;
+use app\models\Page;
+use app\models\PageEditForm;
 
 class SiteController extends Controller
 {
