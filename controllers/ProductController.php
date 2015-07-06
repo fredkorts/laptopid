@@ -121,6 +121,47 @@ class ProductController extends Controller
 		return $this->render('/site/index', [ 'model' => $produktid]);
         //return $this->render('/site/index');
     }
+	
+	public function actionKustuta()
+    {
+		//TODO 5.07.2015 Caupo - Checkida, kas kasutaja on Admin õigustega
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$product = Product::findOne($id);
+				
+		Product::deleteAll("id=".$id);
+		ProductField::deleteAll("product_id=".$id);
+		
+		$product_field = ProductField::find()->where(['product_id' => $id])->all();
+		//------------------------------------
+		if($product->getAttribute('cut_price')==0){
+			$produktid = Product::find()->where(['active' => 1])->andWhere(['<=', 'cut_price', '0'])->all();
+		} else {
+			$produktid = Product::find()->where(['active' => 1])->andWhere(['>=', 'cut_price', '1'])->all();
+		}
+		
+		if($produktid == null)
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+			
+		foreach ($produktid as $p) {
+			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$p->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$p->field_type[] = $field_type;
+				}
+			}
+			$p->product_field = $product_fields;
+		}
+		// TODO 5.07.2015 Caupo - SetFlash, et toode kopeeritud vms...
+		
+		if($product->getAttribute('cut_price')==0){
+			return $this->render('/site/product', [ 'model' => $produktid]);
+		}
+		return $this->render('/site/index', [ 'model' => $produktid]);
+        //return $this->render('/site/index');
+    }
 
     public function actionLogin()
     {
