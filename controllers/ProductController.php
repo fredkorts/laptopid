@@ -66,9 +66,9 @@ class ProductController extends Controller
     public function actionKopeeri()
     {
 		//TODO 5.07.2015 Caupo - Checkida, kas kasutaja on Admin õigustega
+		//var_dump(Yii::$app->getRequest()); die;
 		$id = Yii::$app->getRequest()->getQueryParam('id');
 		$product = Product::findOne($id);
-		$product->save(false);
 		$product_field = ProductField::find()->where(['product_id' => $id])->all();
 		//var_dump($product->getAttribute('mfr'));die;
 		$new_product = new Product();
@@ -92,8 +92,12 @@ class ProductController extends Controller
 		}
 		
 		//------------------------------------
+		if($product->getAttribute('cut_price')==0){
+			$produktid = Product::find()->where(['active' => 1])->andWhere(['<=', 'cut_price', '0'])->all();
+		} else {
+			$produktid = Product::find()->where(['active' => 1])->andWhere(['>=', 'cut_price', '1'])->all();
+		}
 		
-		$produktid = Product::find()->with('product_field')->where(['active' => 1])->andWhere(['>=', 'cut_price', '1'])->all();
 		if($produktid == null)
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
 			
@@ -110,8 +114,12 @@ class ProductController extends Controller
 			$p->product_field = $product_fields;
 		}
 		// TODO 5.07.2015 Caupo - SetFlash, et toode kopeeritud vms...
-        return $this->render('/site/index', [ 'model' => $produktid]);
-		//return $this->render('/site/index');
+		
+		if($product->getAttribute('cut_price')==0){
+			return $this->render('/site/product', [ 'model' => $produktid]);
+		}
+		return $this->render('/site/index', [ 'model' => $produktid]);
+        //return $this->render('/site/index');
     }
 
     public function actionLogin()
