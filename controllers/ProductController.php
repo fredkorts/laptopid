@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Product;
 use app\models\ProductForm;
+use app\models\ProductCreateForm;
 use app\models\ProductField;
 use app\models\ProductFieldForm;
 use app\models\Field;
@@ -63,6 +64,15 @@ class ProductController extends Controller
         //return $this->render('product', [ 'model' => $model]);
 		return $this->render('index');
     }
+	public function actionProductCreate()
+	{
+		$model = new ProductCreateForm();
+		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            return $this->render('/site/product-create-confirm', ['model' => $model]);
+		} else {
+           return $this->render('/site/product-create', ['model' => $model]);
+        }
+	}
     public function actionKopeeri()
     {
 		//TODO 5.07.2015 Caupo - Checkida, kas kasutaja on Admin õigustega

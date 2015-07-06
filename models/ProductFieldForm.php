@@ -8,7 +8,7 @@ use yii\base\Model;
 /**
  * ContactForm is the model behind the contact form.
  */
-class ProductFieldForm extends Model
+class ProductCreateForm extends Model
 {
     public $id;
 	public $product_id;
