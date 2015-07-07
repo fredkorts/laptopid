@@ -29,7 +29,7 @@ class ProductController extends Controller
     /**
      * Lists all Product models.
      * @return mixed
-     */
+     */ 
     public function actionIndex()
     {
 		if(Yii::$app->getRequest()->getPathInfo() == 'product')
