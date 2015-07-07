@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;?>
 			echo 'Soodushind: '.$m->getAttribute('cut_price').'<br>';
 			echo 'Stock: '.$m->getAttribute('stock').'<br>';
 			echo 'Info: '.$m->getAttribute('description').'<br><br>';
+			
 			for($i = 0; $i < count($m->field); $i++)
 			{
 				for($t = 0; $t < count($m->field_type); $t++)
