@@ -1,9 +1,19 @@
 <?php
 use yii\helpers\Html;
+
+$pagination = '';
 $this->title = 'Tooted';
 $this->params['breadcrumbs'][] = $this->title;?>
 <div class="site-product">
     <h1><?= Html::encode($this->title) ?></h1>
+	
+	<?php 
+	if(!Yii::$app->user->isGuest) 
+	{
+		echo '<a href="/index.php/product/product-create/'.'">Lisa toode</a>';
+	} 
+	?>
+	
     <p>
 		<?php foreach($model as $m) {
 			echo 'Tootja: '.$m->getAttribute('mfr').'<br>';
@@ -13,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;?>
 			echo 'Stock: '.$m->getAttribute('stock').'<br>';
 			echo 'Active: '.$m->getAttribute('active').'<br>';
 			echo 'Info: '.$m->getAttribute('description').'<br><br>';
-			echo 'Id: '.$m->getAttribute('id').'<br><br>';
 			for($i = 0; $i < count($m->field); $i++) {
 				for($t = 0; $t < count($m->field_type); $t++) {
 					if($m->field_type[$t][0]->getAttribute('id') == $m->field[$i][0]->getAttribute('type_id')) {
@@ -30,6 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;?>
 			echo '<br><br>';
 		}?>
     </p>
-
-    <code><?= __FILE__ ?></code>
+	
+	<code><?= __FILE__ ?></code>
 </div>

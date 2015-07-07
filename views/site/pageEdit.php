@@ -20,8 +20,8 @@ $form = ActiveForm::begin([
 ]);
 ?>
 
-	<?= $form->field($model, 'title') ?>
-	<?= $form->field($model, 'content')->textArea(['cols' => 5, 'rows' => '20']) ?>
+	<?= $form->field($model, 'title')->label('Pealkiri') ?>
+	<?= $form->field($model, 'content')->textArea(['cols' => 5, 'rows' => '20'])->label('Sisu') ?>
 
 	<?= Html::submitButton('Salvesta', ['class' => 'btn btn-primary']) ?>
 	<?= Html::a('Loobu', Url::to(['page/'.$model->id."/".$model->getSafeName()]),['class' => 'reset btn btn-danger']) ?>

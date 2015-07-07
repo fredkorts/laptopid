@@ -68,11 +68,35 @@ class ProductController extends Controller
 	{
 		$model = new ProductCreateForm();
 		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            return $this->render('/site/product-create-confirm', ['model' => $model]);
+			
+			$p = new Product();
+			
+			$p->setAttribute('mfr', $model->mfr);
+			$p->setAttribute('model', $model->model);
+			$p->setAttribute('description', $model->description);
+			$p->setAttribute('price', $model->price);
+			$p->setAttribute('cut_price', $model->cut_price);
+			$p->setAttribute('stock', $model->stock);
+			$p->setAttribute('active', $model->active);
+			$p->setAttribute('highlighted', $model->highlighted);
+			
+			$p->highlighted=$model->highlighted;
+			$p->mfr=$model->mfr;
+			$p->active=$model->active;
+			$p->stock=$model->stock;
+			$p->cut_price=$model->cut_price;
+			$p->price=$model->price;
+			$p->description=$model->description;
+			$p->model=$model->model;
+			
+			$p->save();
+			
+			return $this->render('/site/product', ['model' => Product::find()->all()]);			
 		} else {
            return $this->render('/site/product-create', ['model' => $model]);
         }
 	}
+	
     public function actionKopeeri()
     {
 		//TODO 5.07.2015 Caupo - Checkida, kas kasutaja on Admin õigustega
@@ -82,7 +106,7 @@ class ProductController extends Controller
 		$product_field = ProductField::find()->where(['product_id' => $id])->all();
 		//var_dump($product->getAttribute('mfr'));die;
 		$new_product = new Product();
-		$new_product->init();
+		//$new_product->init();
 		$new_product->setAttribute('mfr', $product->getAttribute('mfr'));
 		$new_product->setAttribute('model', $product->getAttribute('model'));
 		$new_product->setAttribute('price', $product->getAttribute('price'));

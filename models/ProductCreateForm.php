@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\db\ActiveRecord;
 use app\models\Product;
 
 /**
@@ -27,7 +28,7 @@ class ProductCreateForm extends Model
     {
         return [
 			
-			[['mfr', 'model', 'price'], 'required'],
+			//[['mfr', 'model', 'price', 'description'], 'required'],
         	['mfr', 'string'],
 			['model', 'string'],
 			['price', 'number'],
@@ -38,4 +39,19 @@ class ProductCreateForm extends Model
 			['highlighted', 'boolean'],
         ];
     }
+	
+	public function attributeLabels()
+	{
+		return [
+			'mfr' => 'Tootja',
+			'model' => 'Mudel',
+			'price' => 'Hind',
+			'cut_price' => 'Soodushind',
+			'stock' => 'Laoseis',
+			'description' => 'Toote kirjeldus',
+			'active' => 'Aktiivne?',
+			'highlighted' => 'Tõsta esile?',
+		];
+	}
+	
 }
