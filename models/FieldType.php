@@ -14,8 +14,7 @@ class FieldType extends ActiveRecord
     public function rules()
     {
         return [
-			['id', 'primary'],
-        	['name', 'string', 'max' => 40],
+			['name', 'string', 'max' => 40],
         ];
     }
 	

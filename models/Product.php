@@ -23,7 +23,6 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
-        	['id', 'primary'],
         	['mfr', 'required'],
             ['model', 'required'],
 			// must be less or equal than 120 characters

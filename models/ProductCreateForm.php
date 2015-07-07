@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\Product;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -25,9 +26,9 @@ class ProductCreateForm extends Model
     public function rules()
     {
         return [
-			[['mfr', 'model','price'], 'required'],
-        	['id', 'primary'],
-			['mfr', 'string'],
+			
+			[['mfr', 'model', 'price'], 'required'],
+        	['mfr', 'string'],
 			['model', 'string'],
 			['price', 'number'],
 			['cut_price', 'number'],
