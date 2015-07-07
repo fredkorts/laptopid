@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-class ProductFieldController extends \yii\web\Controller
+class FieldController extends \yii\web\Controller
 {
     public function actionCreate()
     {

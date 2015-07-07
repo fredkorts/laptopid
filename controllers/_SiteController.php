@@ -8,9 +8,14 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\ProductForm;
+use app\models\Product;
+use app\models\ProductField;
+use app\models\Field;
+use app\models\FieldType;
+use app\models\Page;
+use app\models\PageEditForm;
 
-class Product extends Controller
+class SiteController extends Controller
 {
     public function behaviors()
     {
@@ -50,14 +55,38 @@ class Product extends Controller
 
     public function actionIndex()
     {
-		//$model = Product::findOne(1);
-		//var_dump($model);
-		//die;
-		//if($model == null)
-		//	return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
-        //return $this->render('product', [ 'model' => $model]);
-		return $this->render('index');
+		$produktid = $this->getProducts(1);
+		if($produktid == null)
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
+			
+		foreach ($produktid as $p) {
+			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$p->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$p->field_type[] = $field_type;
+				}
+			}
+			$p->product_field = $product_fields;
+		}
+        return $this->render('index', [ 'model' => $produktid]);
     }
+	
+	public function getProductField($p)
+	{
+		$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+		foreach ($product_fields as $pf) {
+			$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+			$p->field[] = $field;
+			foreach ($field as $f) {
+				$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+				$p->field_type[] = $field_type;
+			}
+		}
+		$p->product_field = $product_fields;
+	}
 
     public function actionLogin()
     {
@@ -139,17 +168,40 @@ class Product extends Controller
     {
         return $this->render('soodus');
     }
-
+	
     public function actionTooted()
-    {
-		$model = Product::findOne(1);
-		var_dump($model);
-		die;
-		if($model == null)
+    {	
+		$produktid = $this->getProducts();
+		if($produktid == null)
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
-        return $this->render('product', [ 'model' => $model]);
-        //return $this->render('product');
+			
+		foreach ($produktid as $p) {
+			$product_fields = ProductField::find()->where(['product_id' => $p->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$p->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$p->field_type[] = $field_type;
+				}
+			}
+			$p->product_field = $product_fields;
+		}
+        return $this->render('product', [ 'model' => $produktid]);
     }
+	
+	public function getProducts($discount = 0)
+	{
+		if($discount)
+		{
+			$products = Product::find()->where(['active' => 1])->andWhere(['>=', 'cut_price', '1'])->all();
+		}
+		else
+		{
+			$products = Product::find()->with('product_field')->where(['active' => 1, 'cut_price' => 0])->all();
+		}
+		return $products;
+	}
 
     public function actionKasulikku()
     {

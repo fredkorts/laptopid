@@ -2,75 +2,73 @@
 
 namespace app\models;
 
-use yii\db\ActiveRecord;
+use Yii;
 
-class ProductField extends ActiveRecord
+/**
+ * This is the model class for table "product_field".
+ *
+ * @property integer $id
+ * @property integer $product_id
+ * @property integer $field_id
+ *
+ * @property Product $product
+ * @property Field $field
+ */
+class ProductField extends \yii\db\ActiveRecord
 {
-    public $id;
-	public $product_id;
-	public $field_id;
-	public $field;
-	/**
-     * @return array the validation rules.
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'product_field';
+    }
+
+    /**
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-			['product_id', 'number'],
-			['field_id', 'number'],
+            [['product_id', 'field_id'], 'required'],
+            [['product_id', 'field_id'], 'integer']
         ];
     }
-	/*public function fields()
-	{
-		return ['product_id', 'field_id'];
-	}*/
-	
-	/*public function getfield()
-	{
-		$fields = Field::find()->where(['id' => $this->field_id])->all();
-		return $fields;
-	}*/
-	
-    /*public function getField()
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
     {
-        return $this->hasMany(Field::className(), ['field_id' => 'id']);
-    }*/
-	
-	/*public function relations() { yii1 maybe
-		return array(
-			'product_field' => array(self::HAS_MANY, 'ProductField', 'product_id')
-		);
-	}*/
-	
-	
-	/*public function getProduct() {
-		return $this->hasMany(ProductField::className(), ['id' => 'product_id'])
-		  ->viaTable('product_field', ['product_id' => 'id']);
-	}*/
-	/*public function getProduct() {
-		return $this->hasOne(Product::className(), ['id' => 'product_id']);
-	}*/
-	/*public function getProduct() {
-		return $this->hasMany(Product::className(), ['id' => 'product_id'])
-		  ->viaTable('product_field', ['id' => 'product_id']);
-	}
-	
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'product_id' => Yii::t('app', 'Product ID'),
+            'field_id' => Yii::t('app', 'Field ID'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getField()
     {
         return $this->hasOne(Field::className(), ['id' => 'field_id']);
-    }*/
-    /*public function getField()
+    }
+
+    /**
+     * @inheritdoc
+     * @return ProductFieldQuery the active query used by this AR class.
+     */
+    public static function find()
     {
-        return $this->hasOne(Field::className(), ['ID' => 'field_id']);
-    }*/
-	
-	/*public function getSafeName()
-	{
-		//UTF-8 urls are supported by most of browsers by now
-		//$url = str_replace(array(' ','õ','ä','ö','ü'), array('-','o','a','o','u'), $this->getName());
-		$url = str_replace(' ', '-', $this->mfr.$this->model);
-		$url = preg_replace('/[^a-z0-9\-]/', '', strtolower($url));
-			
-		return preg_replace('/-+/', '-', $url);
-	}*/
+        return new ProductFieldQuery(get_called_class());
+    }
 }

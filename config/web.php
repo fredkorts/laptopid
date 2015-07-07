@@ -7,6 +7,7 @@ $config = [
     'basePath' => dirname(__DIR__),
 	//'defaultRoute' => 'page/index',
     'bootstrap' => ['log'],
+	'language' => 'et',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -34,7 +35,7 @@ $config = [
             'showScriptName' => true,
             'enableStrictParsing' => false,
             'rules' => [
-				'/' => 'site/index',
+				'/' => 'product/index',
 				'login' => 'site/login',
                 'page/<id:\d+>' => 'site/page',
 				'page/<id:\d+>/<pageName>' => 'site/page',

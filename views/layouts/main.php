@@ -28,8 +28,8 @@ $connection = Yii::$app->db;
 $command = $connection->createCommand("SELECT * FROM page WHERE main_menu = 1 ORDER BY id DESC");
 $pages = $command->queryAll();
 
-$menuItems[] = ['label' => 'Soodus', 'url' => ['/site/index']];
-$menuItems[] = ['label' => 'Tooted', 'url' => ['/site/tooted']];
+$menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
+$menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
 foreach($pages as $p)
 {
 	$menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
