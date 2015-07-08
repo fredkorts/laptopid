@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Product;
+use app\models\ProductField;
+use app\models\Field;
+use app\models\FieldType;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -33,23 +36,66 @@ class ProductController extends Controller
     public function actionIndex()
     {
 		if(Yii::$app->getRequest()->getPathInfo() == 'product')
-		{			
-			$dataProvider = new ActiveDataProvider([
-				'query' => Product::find()->where(['cut_price' => 0]),
-			]);
+		{
+			$models = Product::find()->where(['=', 'cut_price', 0])->all();
+			foreach($models as $model)
+			{
+				$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
+				foreach ($product_fields as $pf) {
+					$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+					$model->field[] = $field;
+					foreach ($field as $f) {
+						$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+						$model->field_type[] = $field_type;
+					}
+				}
+				$model->product_field = $product_fields;
+			}
 		}
 		else
 		{	
-			$dataProvider = new ActiveDataProvider([
-				'query' => Product::find()->where(['>', 'cut_price', 0]),
-			]);
+			$models = Product::find()->where(['>', 'cut_price', 0])->all();
+			foreach($models as $model)
+			{
+				$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
+				foreach ($product_fields as $pf) {
+					$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+					$model->field[] = $field;
+					foreach ($field as $f) {
+						$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+						$model->field_type[] = $field_type;
+					}
+				}
+				$model->product_field = $product_fields;
+			}
 		}
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'models' => $models,
         ]);
     }
 
+	public function actionUpdateProductField()
+	{
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$model = ProductField::findOne($id);
+		return $this->render('/product-field/update', [
+            'model' => $model,
+        ]);
+	}
+
+	public function actionCreateProductField()
+	{
+        $model = new ProductField();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('/product-field/create', [
+                'model' => $model,
+            ]);
+        }
+	}
+	
     /**
      * Displays a single Product model.
      * @param integer $id

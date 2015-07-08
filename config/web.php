@@ -40,9 +40,8 @@ $config = [
                 'page/<id:\d+>' => 'site/page',
 				'page/<id:\d+>/<pageName>' => 'site/page',
 				'edit/page/<id:\d+>' => 'site/edit-page',
-				//'product/<id:\d+>/kopeeri' => 'product/kopeeri',
-				//'product/<id:\d+>' => 'site/tooted',
-				//'product/<id:\d+>/<pageName>' => 'site/tooted',
+				'product-field/update/<id:\d+>' => 'product-field/update',
+				'product-field/create/<id:\d+>' => 'product-field/create',
 				
 				'<controller:\w+>/<id:\d+>' => '<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

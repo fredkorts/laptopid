@@ -42,8 +42,8 @@ class ProductField extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'product_id' => Yii::t('app', 'Product ID'),
-            'field_id' => Yii::t('app', 'Field ID'),
+            'product_id' => Yii::t('app', 'Toode'),
+            'field_id' => Yii::t('app', 'Komponent'),
         ];
     }
 

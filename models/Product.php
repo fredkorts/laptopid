@@ -24,6 +24,10 @@ class Product extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+	public $product_field;
+	public $field;
+	public $field_type;
+	 
     public static function tableName()
     {
         return 'product';
@@ -50,22 +54,23 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'mfr' => Yii::t('app', 'Mfr'),
-            'model' => Yii::t('app', 'Model'),
-            'price' => Yii::t('app', 'Price'),
-            'cut_price' => Yii::t('app', 'Cut Price'),
-            'stock' => Yii::t('app', 'Stock'),
-            'active' => Yii::t('app', 'Active'),
-            'description' => Yii::t('app', 'Description'),
-            'highlighted' => Yii::t('app', 'Highlighted'),
+            'mfr' => Yii::t('app', 'Tootja'),
+            'model' => Yii::t('app', 'Mudel'),
+            'price' => Yii::t('app', 'Hind'),
+            'cut_price' => Yii::t('app', 'Soodushind'),
+            'stock' => Yii::t('app', 'Laos'),
+            'active' => Yii::t('app', 'Aktiivne'),
+            'description' => Yii::t('app', 'Info'),
+            'highlighted' => Yii::t('app', 'Esile tõstetud'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductFields()
+    public function getProductField()
     {
+		//var_dump($this->hasMany(ProductField::className(), ['product_id' => 'id']));die;
         return $this->hasMany(ProductField::className(), ['product_id' => 'id']);
     }
 
