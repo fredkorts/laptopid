@@ -6,16 +6,29 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Products');
-$this->params['breadcrumbs'][] = $this->title;
+if(Yii::$app->getRequest()->getPathInfo() == 'product')
+		{			
+			$this->title = Yii::t('app', 'Tooted');
+			$this->params['breadcrumbs'][] = 'Tooted';
+		} else {
+			$this->title = Yii::t('app', 'Soodustooted');	
+			$this->params['breadcrumbs'][] = 'Soodustooted';
+		}	
 ?>
 <div class="product-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Lisa uus toode'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php
+	if(Yii::$app->getRequest()->getPathInfo() == 'product'){ ?>
+		<p>
+			<?= Html::a(Yii::t('app', 'Lisa toode'), ['create'], ['class' => 'btn btn-success']) ?>
+		</p>
+	<?php } else { ?>
+		 <p>
+			<?= Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'], ['class' => 'btn btn-success']) ?>
+		</p>
+	<?php } ?>
 
 	<?php foreach($models as $model) 
 	{ ?>

@@ -15,21 +15,23 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'mfr')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
+	
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cut_price')->textInput(['maxlength' => true]) ?>
+    <?php if(!(Yii::$app->getRequest()->getPathInfo() == 'product/create')){ ?>		
+		<?=$form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
+	<?php } ?> 
 
     <?= $form->field($model, 'stock')->textInput() ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'highlighted')->textInput() ?>
+    <?= $form->field($model, 'highlighted')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Lisa') : Yii::t('app', 'Salvesta'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

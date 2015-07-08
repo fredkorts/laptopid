@@ -60,7 +60,7 @@ class Product extends \yii\db\ActiveRecord
             'cut_price' => Yii::t('app', 'Soodushind'),
             'stock' => Yii::t('app', 'Laos'),
             'active' => Yii::t('app', 'Aktiivne'),
-            'description' => Yii::t('app', 'Info'),
+            'description' => Yii::t('app', 'Kirjeldus'),
             'highlighted' => Yii::t('app', 'Esile tõstetud'),
         ];
     }
