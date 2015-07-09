@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 
-$this->title = 'Muuda toodet: '.$model->mfr.' '.$model->model;
+$this->title = 'Muuda: '.$model->mfr.' '.$model->model;
 if ($model->cut_price > 0){
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Soodustooted'), 'url' => ['index']];
 } else {
@@ -14,7 +14,7 @@ if ($model->cut_price > 0){
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-update">
-
+	
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [

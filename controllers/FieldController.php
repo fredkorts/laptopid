@@ -33,5 +33,4 @@ class FieldController extends \yii\web\Controller
     {
         return $this->render('view');
     }
-
 }

@@ -9,6 +9,8 @@ class ProductFieldController extends \yii\web\Controller
     public function actionCreate()
     {
         $model = new ProductField();
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$model->product_id = $id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -44,6 +46,11 @@ class ProductFieldController extends \yii\web\Controller
         return $this->render('view');
     }
 	
+	public function cnv($value) {
+			$value = $value/1000;
+		return (float) $value;
+	}
+	
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -52,6 +59,7 @@ class ProductFieldController extends \yii\web\Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+				'cnv' => $this,
             ]);
         }
     }

@@ -72,30 +72,15 @@ class ProductController extends Controller
 
         return $this->render('index', [
             'models' => $models,
+			'cnv' => $this,
         ]);
     }
-
-	public function actionUpdateProductField()
-	{
-		$id = Yii::$app->getRequest()->getQueryParam('id');
-		$model = ProductField::findOne($id);
-		return $this->render('/product-field/update', [
-            'model' => $model,
-        ]);
-	}
-
-	public function actionCreateProductField()
-	{
-        $model = new ProductField();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('/product-field/create', [
-                'model' => $model,
-            ]);
-        }
-	}
 	
+	public function cnv($value) {
+			$value = $value/1000;
+		return (float) $value;
+	}
+
     /**
      * Displays a single Product model.
      * @param integer $id
@@ -116,7 +101,7 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-
+		$model->cut_price = 0;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -129,8 +114,7 @@ class ProductController extends Controller
 	public function actionCreateCut()
 	{
         $model = new Product();
-		
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			
             return $this->redirect(['index', 'id' => $model->id]);
         } else {

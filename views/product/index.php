@@ -33,7 +33,7 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
 	<?php foreach($models as $model) 
 	{ ?>
     <p>
-        <?= Html::a(Yii::t('app', 'Lisa komponent'), ['/product-field/create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Lisa komponent'), ['/product-field/create', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Muuda'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Kustuta'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -51,11 +51,11 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
             'id',
             'mfr',
             'model',
-            'price',
+            'description:ntext',
+			'price',
             'cut_price',
             'stock',
             'active',
-            'description:ntext',
             'highlighted',
         ],
     ]);
@@ -70,7 +70,13 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
 		}
 		echo $model->field[$i][0]->name.' ';
 		echo $model->field[$i][0]->model.' ';
-		echo $model->field[$i][0]->value.'<br>';
+		
+		if($model->field_type[$i][0]->name == 'Protsessor'){
+			echo $cnv->cnv($model->field[$i][0]->value);
+		} else {
+			echo $model->field[$i][0]->value;
+		}
+		echo $model->field[$i][0]->unit.'<br>';
 		echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $model->product_field[$i]->id], ['class' => 'btn btn-primary']).' ';
 		echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => $model->product_field[$i]->id], [ 'class' => 'btn btn-danger', 'data' => [ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 'method' => 'post',],]);
 		echo '<br><br>';
