@@ -10,7 +10,6 @@ use yii\widgets\ActiveForm;
 <div class="product-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'product_id')->textInput() ?>
     <?= $form->field($model, 'field_id')->textInput() ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Lisa uus') : Yii::t('app', 'Muuda'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
