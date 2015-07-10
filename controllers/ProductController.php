@@ -38,64 +38,36 @@ class ProductController extends Controller
 		if(Yii::$app->getRequest()->getPathInfo() == 'product')
 		{
 			$models = Product::find()->where(['=', 'cut_price', 0])->all();
-			foreach($models as $model)
-			{
-				$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
-				foreach ($product_fields as $pf) {
-					$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-					$model->field[] = $field;
-					foreach ($field as $f) {
-						$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
-						$model->field_type[] = $field_type;
-					}
-				}
-				$model->product_field = $product_fields;
-			}
 		}
 		else
 		{	
 			$models = Product::find()->where(['>', 'cut_price', 0])->all();
-			foreach($models as $model)
-			{
-				$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
-				foreach ($product_fields as $pf) {
-					$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-					$model->field[] = $field;
-					foreach ($field as $f) {
-						$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
-						$model->field_type[] = $field_type;
-					}
+		}
+		foreach($models as $model)
+		{
+			$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$model->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$model->field_type[] = $field_type;
 				}
-				$model->product_field = $product_fields;
 			}
+			$model->product_field = $product_fields;
 		}
 
         return $this->render('index', [
             'models' => $models,
+			'cnv' => $this,
         ]);
     }
-
-	public function actionUpdateProductField()
-	{
-		$id = Yii::$app->getRequest()->getQueryParam('id');
-		$model = ProductField::findOne($id);
-		return $this->render('/product-field/update', [
-            'model' => $model,
-        ]);
-	}
-
-	public function actionCreateProductField()
-	{
-        $model = new ProductField();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('/product-field/create', [
-                'model' => $model,
-            ]);
-        }
-	}
 	
+	public function cnv($value) {
+			$value = $value/1000;
+		return (float) $value;
+	}
+
     /**
      * Displays a single Product model.
      * @param integer $id
@@ -116,7 +88,7 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-
+		$model->cut_price = 0;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -129,8 +101,7 @@ class ProductController extends Controller
 	public function actionCreateCut()
 	{
         $model = new Product();
-		
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			
             return $this->redirect(['index', 'id' => $model->id]);
         } else {
@@ -220,7 +191,6 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-       $id = Yii::$app->getRequest()->getQueryParam('id');
 		$product = Product::findOne($id);
         if($product->cut_price > 0){
 			$this->findModel($id)->delete();			
@@ -230,7 +200,7 @@ class ProductController extends Controller
 			return $this->redirect(['/product']);
 		}
     }
-
+	
     /**
      * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

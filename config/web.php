@@ -35,6 +35,7 @@ $config = [
             'showScriptName' => true,
             'enableStrictParsing' => false,
             'rules' => [
+			
 				'/' => 'product/index',
 				'login' => 'site/login',
                 'page/<id:\d+>' => 'site/page',

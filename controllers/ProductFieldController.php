@@ -3,14 +3,21 @@
 namespace app\controllers;
 use Yii;
 use app\models\ProductField;
+use app\models\Product;
+use app\models\Field;
+use app\models\FieldType;
 
 class ProductFieldController extends \yii\web\Controller
 {
     public function actionCreate()
     {
         $model = new ProductField();
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$model->product_id = $id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -20,9 +27,15 @@ class ProductFieldController extends \yii\web\Controller
 	
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
-    }
+		$url = '';
+		$product_field = ProductField::findOne($id);
+		$product_id = $product_field->getAttribute('product_id');
+				
+		$this->findModel($id)->delete();
+		$url = '/index.php/product-field/create/'.$product_id;		
+		
+		return $this->redirect($url); 
+	}
 
     public function actionEdit()
     {
@@ -44,14 +57,20 @@ class ProductFieldController extends \yii\web\Controller
         return $this->render('view');
     }
 	
+	public function cnv($value) {
+			$value = $value/1000;
+		return (float) $value;
+	}
+	
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		$model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+				'cnv' => $this,
             ]);
         }
     }

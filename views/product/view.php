@@ -2,11 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\models\Product;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
-
-$this->title = 'Toode: '.$model->id;
+$id = Yii::$app->getRequest()->getQueryParam('id');
+$product = Product::findOne($id);
+$this->title = $product->mfr.' '.$product->model;;
 if ($model->cut_price > 0){
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Soodustooted'), 'url' => ['index']];
 } else {

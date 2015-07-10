@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+<<<<<<< HEAD
 use app\models\FieldType;
 
 
@@ -43,6 +44,9 @@ $this->registerJs('
 //$this->registerJsFile('/js/jQuery-Autocomplete/src/jquery.autocomplete.js');
 
 
+=======
+use app\models\Field;
+>>>>>>> ed800b91625eaa8b5e7eb22e803df417ac0ed2ae
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 /* @var $form yii\widgets\ActiveForm */
@@ -52,6 +56,7 @@ $this->registerJs('
 
 	<?php $field_types = FieldType::find()->orderBy('id')->all(); ?>	 
     <?php $form = ActiveForm::begin(); ?>
+<<<<<<< HEAD
     <?= $form->field($model, 'field_id')->textInput() ?>
 	<select id="tyybid">
 	<?php
@@ -129,8 +134,21 @@ $this->registerJs('
 	</script>
 	<br><br>
 	<br>
+=======
+	
+	<?php /* 
+			$path = Yii::$app->getRequest()->getPathInfo();
+			if(strpos($path,'update') > 0) { 
+				$field = Field::find()->where(['id' => $model->field_id])->one();		
+				$form->field($field, 'name')->textInput();
+			} else {
+				$form->field($model, 'field_id')->textInput();
+			}*/ ?>
+			
+    <?=	$form->field($model, 'field_id')->textInput(); ?>
+>>>>>>> ed800b91625eaa8b5e7eb22e803df417ac0ed2ae
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Lisa uus') : Yii::t('app', 'Muuda'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Lisa') : Yii::t('app', 'Lisa'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
