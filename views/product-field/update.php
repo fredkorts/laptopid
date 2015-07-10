@@ -2,13 +2,15 @@
 
 use yii\helpers\Html;
 use app\models\Field;
+use app\models\ProductField;
 use app\models\Product;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 // $field = Field::find()->where(['id' => $model->field_id])->one();
 $id = Yii::$app->getRequest()->getQueryParam('id');
-$product = Product::findOne($id);
-$field = Field::findOne($id);
+$product_field = ProductField::findOne($id);
+$product = Product::findOne($product_field->getAttribute('product_id'));
+$field = Field::findOne($product_field->getAttribute('field_id'));
 $productName = $product->mfr.' '.$product->model;
 $this->title = Yii::t('app', 'Muuda {modelClass}', [
     'modelClass' => 'komponenti',

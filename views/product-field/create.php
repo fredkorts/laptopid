@@ -13,7 +13,7 @@ $id = Yii::$app->getRequest()->getQueryParam('id');
 $product = Product::findOne($id);
 
 
-$this->title = Yii::t('app', 'Lisa tootele komponent');
+$this->title = Yii::t('app', 'Lisa/muuda komponente');
 if($product->cut_price == 0) {
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tooted'), 'url' => ['./product/']];
 } else {
@@ -43,27 +43,30 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
  
+		<h3>Komponendid</h3>
 		<?php 
 		$product_fields = ProductField::find()->where(['product_id' => $id])->all();
 		$pfids=array();
 		foreach($product_fields as $pf){
-			$pfids[] = $pf->getAttribute('field_id');
+			$f = Field::findOne($pf->getAttribute('field_id'));
+			//foreach($fields as $f){
+				echo $f->name.' ';
+				echo $f->model.' ';
+				echo $f->value.' ';
+				echo $f->unit.' ';
+				echo $f->price.'€'.'<br>';
+				echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $pf->id], ['class' => 'btn btn-primary']).' ';
+				echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => 
+										$pf->id], 
+										[ 'class' => 'btn btn-danger', 'data' => 
+										[ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 
+										'method' => 'post',],]);
+										echo '<br><br>';
+			//}
 		}
-		$dataProvider = new ActiveDataProvider([
-				'query' => Field::find()->where(['id'=> $pfids]),
-		]); 
 		?>
-		<h3>Komponendid</h3>
-		<?=GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-			'name',
-            'model',
-            'value',
-            'unit',
-            'price',            
-        ],
-    ]);
-?>
+		<?php
+		?>
+
 
 </div>

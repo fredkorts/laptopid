@@ -49,10 +49,11 @@ class Field extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'type_id' => Yii::t('app', 'Type ID'),
-            'name' => Yii::t('app', 'Name'),
-            'model' => Yii::t('app', 'Model'),
-            'value' => Yii::t('app', 'Value'),
-            'price' => Yii::t('app', 'Price'),
+            'name' => Yii::t('app', 'Nimetus'),
+            'model' => Yii::t('app', 'Mudel'),
+            'value' => Yii::t('app', 'Väärtus'),
+			'unit' => Yii::t('app', 'Ühik'),
+            'price' => Yii::t('app', 'Hind'),
         ];
     }
 

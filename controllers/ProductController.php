@@ -38,36 +38,23 @@ class ProductController extends Controller
 		if(Yii::$app->getRequest()->getPathInfo() == 'product')
 		{
 			$models = Product::find()->where(['=', 'cut_price', 0])->all();
-			foreach($models as $model)
-			{
-				$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
-				foreach ($product_fields as $pf) {
-					$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-					$model->field[] = $field;
-					foreach ($field as $f) {
-						$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
-						$model->field_type[] = $field_type;
-					}
-				}
-				$model->product_field = $product_fields;
-			}
 		}
 		else
 		{	
 			$models = Product::find()->where(['>', 'cut_price', 0])->all();
-			foreach($models as $model)
-			{
-				$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
-				foreach ($product_fields as $pf) {
-					$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-					$model->field[] = $field;
-					foreach ($field as $f) {
-						$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
-						$model->field_type[] = $field_type;
-					}
+		}
+		foreach($models as $model)
+		{
+			$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
+			foreach ($product_fields as $pf) {
+				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
+				$model->field[] = $field;
+				foreach ($field as $f) {
+					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
+					$model->field_type[] = $field_type;
 				}
-				$model->product_field = $product_fields;
 			}
+			$model->product_field = $product_fields;
 		}
 
         return $this->render('index', [
@@ -204,7 +191,6 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-       $id = Yii::$app->getRequest()->getQueryParam('id');
 		$product = Product::findOne($id);
         if($product->cut_price > 0){
 			$this->findModel($id)->delete();			
@@ -214,7 +200,7 @@ class ProductController extends Controller
 			return $this->redirect(['/product']);
 		}
     }
-
+	
     /**
      * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
