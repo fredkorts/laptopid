@@ -1,9 +1,33 @@
 <?php
 
 namespace app\controllers;
+use Yii;
+use app\models\Field;
+use yii\helpers\ArrayHelper;
+use yii\filters\VerbFilter;
 
 class FieldController extends \yii\web\Controller
 {
+	/*public function behaviors() {
+		return ArrayHelper::merge(parent::behaviors(), [
+					'verbs' => [
+						'class' => VerbFilter::className(),
+						'actions' => [
+							'delete' => ['post'],
+						],
+					],
+		]);
+	}*/
+		/*public function behaviors() {
+		return ArrayHelper::merge(parent::behaviors(), [
+					'verbs' => [
+						'class' => VerbFilter::className(),
+						'actions' => [
+							'get-fields-by-type' => ['get'],
+						],
+					],
+		]);
+	}*/
     public function actionCreate()
     {
         return $this->render('create');
@@ -33,4 +57,27 @@ class FieldController extends \yii\web\Controller
     {
         return $this->render('view');
     }
+<<<<<<< HEAD
+	public function actionGetFieldsByType()
+	{
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$fields = Field::find()->where(['type_id' => $id])->all();
+		\Yii::$app->response->format = 'json';
+		
+		/*
+		var komponendid = [
+		   { value: 'Intel', data: '1' },
+		   { value: 'Kingston', data: '2' },
+		   { value: 'Nvidia', data: '3' }
+		];
+		*/
+		
+		/*foreach($fields as $f)
+		{
+			$array[] = "{ value: '".$f->getAttribute('name')."', data: '".$f->getAttribute('id')."' }";
+		}*/
+		return $fields;
+	}
+=======
+>>>>>>> ed800b91625eaa8b5e7eb22e803df417ac0ed2ae
 }

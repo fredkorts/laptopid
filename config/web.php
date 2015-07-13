@@ -43,6 +43,7 @@ $config = [
 				'edit/page/<id:\d+>' => 'site/edit-page',
 				'product-field/update/<id:\d+>' => 'product-field/update',
 				'product-field/create/<id:\d+>' => 'product-field/create',
+				'field/get-fields-by-type/<id:\d+>' => 'field/get-fields-by-type',
 				
 				'<controller:\w+>/<id:\d+>' => '<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
