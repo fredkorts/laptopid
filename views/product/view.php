@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Product;
+use app\models\ProductField;
+use app\models\Field;
+use app\models\FieldType;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 $id = Yii::$app->getRequest()->getQueryParam('id');
@@ -43,6 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'highlighted',
         ],
-    ]) ?>
-
+    ]); ?>
+		<h3>Komponendid</h3>
+	<?php 
+		$id = $model->id;
+		$product_fields = ProductField::find()->where(['product_id' => $id])->all();
+		foreach($product_fields as $pf){
+				$f = Field::findOne($pf->getAttribute('field_id'));
+				$ft = FieldType::findOne($f->type_id);
+				echo $ft->name. ': ';
+				echo $f->name.' ';
+				echo $f->model.' ';
+				if($ft->getAttribute('name') == 'Protsessor'){
+					echo $f->value/1000;
+				} else {
+					echo $f->value;
+				}								
+				echo $f->unit.' ';
+				echo $f->price.'€'.'<br>';
+			}
+	?>
 </div>

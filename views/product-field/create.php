@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use app\models\Product;
 use app\models\ProductField;
 use app\models\Field;
+use app\models\FieldType;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
@@ -49,20 +50,26 @@ $this->params['breadcrumbs'][] = $this->title;
 		$pfids=array();
 		foreach($product_fields as $pf){
 			$f = Field::findOne($pf->getAttribute('field_id'));
-			//foreach($fields as $f){
-				echo $f->name.' ';
-				echo $f->model.' ';
-				echo $f->value.' ';
-				echo $f->unit.' ';
-				echo $f->price.'€'.'<br>';
-				echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $pf->id], ['class' => 'btn btn-primary']).' ';
-				echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => 
-										$pf->id], 
-										[ 'class' => 'btn btn-danger', 'data' => 
-										[ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 
-										'method' => 'post',],]);
-										echo '<br><br>';
-			//}
+			$ft = FieldType::findOne($f->type_id);
+			echo $ft->name. ': ';
+			echo $f->name.' ';
+			echo $f->model.' ';
+			
+			if($ft->getAttribute('name') == 'Protsessor'){
+					echo $f->value/1000;
+				} else {
+					echo $f->value;
+				}								
+			echo $f->unit.' ';
+			echo $f->price.'€'.'<br>';
+			echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $pf->id], ['class' => 'btn btn-primary']).' ';
+			echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => 
+									$pf->id], 
+									[ 'class' => 'btn btn-danger', 'data' => 
+									[ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 
+									'method' => 'post',],]);
+									echo '<br><br>';
+			
 		}
 		?>
 		<?php

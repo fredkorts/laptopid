@@ -57,20 +57,17 @@ class ProductFieldController extends \yii\web\Controller
         return $this->render('view');
     }
 	
-	public function cnv($value) {
-			$value = $value/1000;
-		return (float) $value;
-	}
-	
     public function actionUpdate($id)
     {
+		$product_field = ProductField::findOne($id);
+		$product_id = $product_field->getAttribute('product_id');
+		$url = '/index.php/product-field/create/'.$product_id;
 		$model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect($url);
         } else {
             return $this->render('update', [
                 'model' => $model,
-				'cnv' => $this,
             ]);
         }
     }

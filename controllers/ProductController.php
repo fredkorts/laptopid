@@ -59,14 +59,8 @@ class ProductController extends Controller
 
         return $this->render('index', [
             'models' => $models,
-			'cnv' => $this,
         ]);
     }
-	
-	public function cnv($value) {
-			$value = $value/1000;
-		return (float) $value;
-	}
 
     /**
      * Displays a single Product model.
