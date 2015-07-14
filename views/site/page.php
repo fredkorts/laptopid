@@ -3,9 +3,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-$this->title = $model->title;
-if (isset($model->id) && $model->id > 1)
-	$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->label;
+// var_dump($model->title); die;
+
+if (isset($model->id) && $model->id >= 1)
+	$this->params['breadcrumbs'][] = $model->label;
 
 if (isset($message))
 	echo '<div class="alert alert-success" role="alert">'.$message.'</div>';
@@ -15,5 +17,6 @@ if (isset($message))
     <h1><?= Html::encode($model->title); ?></h1>
 	<div class="page-content">
 		<?= $model->content ?>
+		
 	</div>
 </div>

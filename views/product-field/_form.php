@@ -12,7 +12,9 @@ use app\models\Field;
 		<?= $form->field($model, 'field_id')->textInput() ?>	
 	</div>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Lisa') : Yii::t('app', 'Lisa'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Lisa') : 
+								Yii::t('app', 'Muuda'), ['class' => $model->isNewRecord ? 
+								'btn btn-success' : 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

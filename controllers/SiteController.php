@@ -12,44 +12,6 @@ use yii\filters\VerbFilter;
 
 class SiteController extends \yii\web\Controller
 {
-    public function actionCreate()
-    {
-        return $this->render('create');
-    }
-
-    public function actionDelete()
-    {
-        return $this->render('delete');
-    }
-
-    public function actionEdit()
-    {
-        return $this->render('edit');
-    }
-
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Product::find()->where(['>', 'cut_price', '0']),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionList()
-    {
-        return $this->render('list');
-    }
-	
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
