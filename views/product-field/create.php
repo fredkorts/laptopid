@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php } ?>
 	<?php
 		echo '<script>';
-	
+		
 		echo 'var components = [';
         $fields = Field::find()->where(['type_id' => $lisa])->all();
 		foreach($fields as $f)
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						$break = true;			
 					}
 				}
-				echo '<br>'.Html::a(Yii::t('app', 'Lisa/muuda komponenti'), ['/product-field/create', 'id' => $id, 'lisa' => $ft->getAttribute('id')], ['class' => 'btn btn-success']);
+				echo '<br>'.Html::a(Yii::t('app', 'Lisa komponent'), ['/product-field/create', 'id' => $id, 'lisa' => $ft->getAttribute('id')], ['class' => 'btn btn-success']);
 				echo '<br>';
 				if($break)
 				{
