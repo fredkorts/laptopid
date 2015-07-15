@@ -71,6 +71,7 @@ class ProductController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+			'id' => $id,
         ]);
     }
 
@@ -96,14 +97,13 @@ class ProductController extends Controller
 	{
         $model = new Product();
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {			
-            return $this->redirect(['index', 'id' => $model->id]);
+          return $this->redirect(['view', 'id' => $model->id]);
         } else {
-			
             return $this->render('create_cut', [
                 'model' => $model,
             ]);
-        }
     }
+	}
 
 	public function actionCopy()
     {

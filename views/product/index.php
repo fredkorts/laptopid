@@ -61,6 +61,8 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
     ]);
 	
 	if(count($model->field) > 0) echo '<h3>Komponendid</h3>';
+	// var_dump($model);
+	// var_dump(count($model->field)); die;
 	for($i = 0; $i < count($model->field); $i++)
 	{
 		for($t = 0; $t < count($model->field_type); $t++)

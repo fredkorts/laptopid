@@ -6,9 +6,7 @@ use app\models\Product;
 use app\models\ProductField;
 use app\models\Field;
 use app\models\FieldType;
-/* @var $this yii\web\View */
-/* @var $model app\models\Product */
-$id = Yii::$app->getRequest()->getQueryParam('id');
+
 $product = Product::findOne($id);
 $this->title = $product->mfr.' '.$product->model;;
 if ($model->cut_price > 0){
@@ -39,16 +37,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'mfr',
             'model',
+			'description:ntext',
             'price',
             'cut_price',
             'stock',
             'active',
-            'description:ntext',
             'highlighted',
         ],
     ]); ?>
-		<h3>Komponendid</h3>
 	<?php 
+	$pf = ProductField::findOne(['product_id' => $id]);
+	if(count($pf) > 0) echo '<h3>Komponendid</h3>';
 		$id = $model->id;
 		$product_fields = ProductField::find()->where(['product_id' => $id])->all();
 		foreach($product_fields as $pf){
