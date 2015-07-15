@@ -19,10 +19,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-
-    <?php if(!(Yii::$app->getRequest()->getPathInfo() == 'product/create')){ ?>		
-		<?=$form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
-	<?php } ?> 
+	
+    <?php if($soodus) echo $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
 
     <?= $form->field($model, 'stock')->textInput() ?>
 

@@ -7,8 +7,7 @@ use app\models\ProductField;
 use app\models\Field;
 use app\models\FieldType;
 
-$product = Product::findOne($id);
-$this->title = $product->mfr.' '.$product->model;;
+$this->title = $model->mfr.' '.$model->model;
 if ($model->cut_price > 0){
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Soodustooted'), 'url' => ['index']];
 } else {
@@ -46,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 	<?php 
-	$pf = ProductField::findOne(['product_id' => $id]);
+	$pf = ProductField::findOne(['product_id' => $model->id]);
 	if(count($pf) > 0) echo '<h3>Komponendid</h3>';
 		$id = $model->id;
 		$product_fields = ProductField::find()->where(['product_id' => $id])->all();

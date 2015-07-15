@@ -5,30 +5,38 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+foreach($models as $m){
+	if($m->cut_price > 0)
+	{			
+		$this->title = Yii::t('app', 'Soodustooted');	
+		$this->params['breadcrumbs'][] = 'Soodustooted';
+		break;
+	} else {
+		$this->title = Yii::t('app', 'Tooted');
+		$this->params['breadcrumbs'][] = 'Tooted';
+		break;
+	}	
+}
 
-if(Yii::$app->getRequest()->getPathInfo() == 'product')
-		{			
-			$this->title = Yii::t('app', 'Tooted');
-			$this->params['breadcrumbs'][] = 'Tooted';
-		} else {
-			$this->title = Yii::t('app', 'Soodustooted');	
-			$this->params['breadcrumbs'][] = 'Soodustooted';
-		}	
 ?>
 <div class="product-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php
-	if(Yii::$app->getRequest()->getPathInfo() == 'product'){ ?>
-		<p>
-			<?= Html::a(Yii::t('app', 'Lisa toode'), ['create'], ['class' => 'btn btn-success']) ?>
-		</p>
-	<?php } else { ?>
-		 <p>
-			<?= Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'], ['class' => 'btn btn-success']) ?>
-		</p>
-	<?php } ?>
+<?php
+	foreach($models as $m){
+		if($m->cut_price > 0){ ?>
+			<p>
+				<?= Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'], ['class' => 'btn btn-success']) ?>
+			</p>
+<?php 		break; 
+		} else { ?>
+			<p>
+				<?= Html::a(Yii::t('app', 'Lisa toode'), ['create'], ['class' => 'btn btn-success']) ?>
+			</p>
+<?php 		break; 
+		}
+	} ?>
 
 	<?php foreach($models as $model) 
 	{ ?>
@@ -61,8 +69,6 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
     ]);
 	
 	if(count($model->field) > 0) echo '<h3>Komponendid</h3>';
-	// var_dump($model);
-	// var_dump(count($model->field)); die;
 	for($i = 0; $i < count($model->field); $i++)
 	{
 		for($t = 0; $t < count($model->field_type); $t++)

@@ -71,7 +71,6 @@ class ProductController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-			'id' => $id,
         ]);
     }
 
@@ -84,11 +83,13 @@ class ProductController extends Controller
     {
         $model = new Product();
 		$model->cut_price = 0;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,	
+				'soodus' => false,
             ]);
         }
     }
@@ -96,11 +97,13 @@ class ProductController extends Controller
 	public function actionCreateCut()
 	{
         $model = new Product();
+		$isCut = 1;
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {			
           return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create_cut', [
                 'model' => $model,
+				'soodus' => true,
             ]);
     }
 	}
