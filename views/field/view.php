@@ -9,9 +9,9 @@ use app\models\FieldType;
 $field_types = FieldType::find()->where(['id' => $model->type_id])->all();
 $value = $model->value;
 foreach($field_types as $ft){
+	if($ft->name == 'Protsessor')
 	$value = $value/1000;
 }
-
 $full_name = $model->name. ' ' . $model->model. ' '.$value.$model->unit;
 $this->title = $full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Komponendid', 'url' => ['index']];
@@ -42,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'value',
             'unit',
             'price',
-        ],
-    ]) ?>
+			]
+		]) ?>
+		<?php  ?>
+			
 
 </div>

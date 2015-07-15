@@ -7,9 +7,10 @@ use app\models\FieldType;
 $field_types = FieldType::find()->where(['id' => $model->type_id])->all();
 $value = $model->value;
 foreach($field_types as $ft){
+	if($ft->name == 'Protsessor')
 	$value = $value/1000;
 }
-$full_name = $model->name. ' ' . $model->model. ' '.$value. ' '.$model->unit ;
+$full_name = $model->name. ' ' . $model->model. ' '.$value.$model->unit ;
 $this->title = 'Muuda komponenti: ' .$full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Komponendid', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name. ' ' . $model->model, 'url' => ['view', 'id' => $model->id]];

@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\FieldType;
 
 /**
  * FieldController implements the CRUD actions for Field model.
@@ -48,8 +49,9 @@ class FieldController extends Controller
      */
     public function actionView($id)
     {
+		$model = $this->findModel($id);		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -102,7 +104,14 @@ class FieldController extends Controller
 
         return $this->redirect(['index']);
     }
-
+	
+    public function actionGetname($id)
+    {
+		$ft = FieldType::findOne($id);
+		$name = $ft->name;
+        return $name;
+    }
+	
     /**
      * Finds the Field model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

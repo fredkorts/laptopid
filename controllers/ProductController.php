@@ -95,8 +95,7 @@ class ProductController extends Controller
 	public function actionCreateCut()
 	{
         $model = new Product();
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {			
             return $this->redirect(['index', 'id' => $model->id]);
         } else {
 			
