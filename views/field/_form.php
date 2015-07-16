@@ -14,13 +14,10 @@ $value = 0;
     <?php $form = ActiveForm::begin(); ?>
 	
 	<div class='hidden' method='get'><?= $form->field($model, 'type_id')->textInput() ?></div>	
-	
-	<?php 
-	echo '<strong>Tüüp</strong><br>';
-	echo '<input 
-					id="field-type_id_ex" class="form-control" 
-					 type="text"><br>'; 
-					?>	
+		
+	<strong>Tüüp</strong><br>
+	<input id="field-type_id_ex" class="form-control" type="text"><br>
+					
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>

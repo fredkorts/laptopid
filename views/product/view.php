@@ -60,8 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				} else {
 					echo $f->value;
 				}								
-				echo $f->unit.' ';
-				echo $f->price.'€'.'<br>';
+				echo $f->unit.' '.'<br>';
 			}
 	?>
 </div>

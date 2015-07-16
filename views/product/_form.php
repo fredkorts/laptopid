@@ -20,8 +20,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 	
-    <?php if($soodus) echo $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
+	<?php if(!$model->isNewRecord && $model->cut_price <= 0){
+		echo 
+		'<table style="width:15%">
+			<tr>
+			<td><input type="checkbox" id="isCut" name="isCut"></td>
+				<td><strong>Lisa soodushind?</strong></td>				
+			</tr>
+		</table>';
+	} ?>
 
+	<div id="cut_price">
+	<?php if($soodus || !$model->isNewRecord) echo $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?></div>
+	
     <?= $form->field($model, 'stock')->textInput() ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
@@ -33,5 +44,15 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
+
+<script>
+<?php if(!$model->isNewRecord && $model->cut_price <= 0){
+	$this->registerJs('
+	$("#cut_price").hide();
+	$("#isCut").click(function () {
+		$("#cut_price").toggle(500);
+});');
+} ?>
+</script>
 
 </div>

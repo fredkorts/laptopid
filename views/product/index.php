@@ -53,20 +53,38 @@ foreach($models as $m){
 		<?= Html::a(Yii::t('app', 'Kopeeri'), ['copy', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 		
     </p>
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'mfr',
-            'model',
-            'description:ntext',
-			'price',
-            'cut_price',
-            'stock',
-            'active',
-            'highlighted',
-        ],
-    ]);
+	<?php 
+	if($model->cut_price > 0){ 
+		echo (DetailView::widget([
+			'model' => $model,
+			'attributes' => [
+				'id',
+				'mfr',
+				'model',
+				'description:ntext',
+				'price',
+				'cut_price',
+				'stock',
+				'active',
+				'highlighted',
+			],
+    ]));
+	} else {
+		echo(DetailView::widget([
+			'model' => $model,
+			'attributes' => [
+				'id',
+				'mfr',
+				'model',
+				'description:ntext',
+				'price',
+				'stock',
+				'active',
+				'highlighted',
+			],
+			]));
+	}
+	
 	
 	if(count($model->field) > 0) echo '<h3>Komponendid</h3>';
 	for($i = 0; $i < count($model->field); $i++)
