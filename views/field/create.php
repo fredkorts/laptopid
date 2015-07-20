@@ -1,9 +1,21 @@
 <?php
-/* @var $this yii\web\View */
-?>
-<h1>field/create</h1>
 
-<p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
-</p>
+use yii\helpers\Html;
+
+
+/* @var $this yii\web\View */
+/* @var $model app\models\Field */
+
+$this->title = 'Lisa komponent';
+$this->params['breadcrumbs'][] = ['label' => 'Komponendid', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="field-create">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+
+</div>

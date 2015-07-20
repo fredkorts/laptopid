@@ -12,6 +12,7 @@ class ProductFieldController extends \yii\web\Controller
     public function actionCreate()
     {
 		$data = Yii::$app->request->post();
+		//return var_dump($data);
 		$field_id = intval($data['field_id']);
 		$product_id = intval($data['product_id']);
         $model = new ProductField();
@@ -62,11 +63,6 @@ class ProductFieldController extends \yii\web\Controller
         return $this->render('view');
     }
 	
-	public function cnv($value) {
-			$value = $value/1000;
-		return (float) $value;
-	}
-	
     public function actionUpdate($id)
     {
 		$data = Yii::$app->request->post();
@@ -85,6 +81,7 @@ class ProductFieldController extends \yii\web\Controller
 			$model->save();
         }
 		return $this->redirect(['/product/update/'.$pid]);
+		//return 999;
     }
 	
     protected function findModel($id)

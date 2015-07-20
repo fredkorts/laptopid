@@ -55,14 +55,8 @@ class ProductController extends Controller
 
         return $this->render('index', [
             'models' => $models,
-			'cnv' => $this,
         ]);
     }
-	
-	public function cnv($value) {
-			$value = $value/1000;
-		return (float) $value;
-	}
 
     /**
      * Displays a single Product model.
@@ -85,11 +79,13 @@ class ProductController extends Controller
     {
         $model = new Product();
 		$model->cut_price = 0;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,	
+				'soodus' => false,
             ]);
         }
     }
@@ -97,16 +93,16 @@ class ProductController extends Controller
 	public function actionCreateCut()
 	{
         $model = new Product();
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			
-            return $this->redirect(['index', 'id' => $model->id]);
+		$isCut = 1;
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {			
+          return $this->redirect(['view', 'id' => $model->id]);
         } else {
-			
             return $this->render('create_cut', [
                 'model' => $model,
+				'soodus' => true,
             ]);
-        }
     }
+	}
 
 	public function actionCopy()
     {
@@ -169,7 +165,7 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);
         } else {

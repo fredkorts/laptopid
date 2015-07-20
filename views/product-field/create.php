@@ -35,7 +35,35 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="product-create">
 	
     <h1><?= Html::encode($this->title) ?></h1>
+<<<<<<< HEAD
 
+=======
+	
+	<?php if($lisa) { ?>
+		<?php echo '<input autocomplete="off" id="productfield-field_id_ex" class="form-control" name="ProductField[field_id]_ex" type="text"><br>';?>
+		<?= $this->render('_form', [
+			'model' => $model,
+		]) ?>
+	<?php } ?>
+	<?php
+		echo '<script>';
+		
+		echo 'var components = [';
+        $fields = Field::find()->where(['type_id' => $lisa])->all();
+		foreach($fields as $f)
+		{
+			echo "{ value: '".$f->getAttribute('name')." ".$f->getAttribute('model')."', data: '".$f->getAttribute('id')."' },";
+		}
+        echo '];';
+		echo "$('#productfield-field_id_ex').autocomplete({";
+		echo "lookup: components,";
+		echo "onSelect: function (suggestion) {";
+		echo "$('#productfield-field_id').val(suggestion.data);";
+		echo "$('#productfield-field_id_ex').val(suggestion.value);";
+		echo "}});";
+		echo '</script>';
+	?>
+>>>>>>> 269efe6440aef2545ee0e9a8721396f40f2c21d2
  <?= DetailView::widget([
         'model' => $product,
         'attributes' => [
@@ -68,6 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				$product_field = ProductField::find()->where(['field_id' => $f->getAttribute('id'), 'product_id' => $pid])->all();
 				foreach($product_field as $pf)
 				{
+<<<<<<< HEAD
 					$showed_component = true;
 					echo $f->getAttribute('name').' '.$f->getAttribute('model').'<br>';
 					echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $pf->id, 'pid' => $pid, 'ft' => $ft->getAttribute('id')], ['class' => 'btn btn-primary']).' ';
@@ -79,6 +108,31 @@ $this->params['breadcrumbs'][] = $this->title;
 					$break = true;	
 					$is_product_field = $pf;
 				}
+=======
+					$ft = FieldType::findOne($f->type_id);
+					if($id == $pf->getAttribute('product_id'))
+					{
+						echo 	$f->getAttribute('name').' '.
+								$f->getAttribute('model').' ';
+								if($ft->getAttribute('name') == 'Protsessor'){
+									echo $f->value/1000;
+								} else {
+									echo $f->value;
+								}							
+						echo	$f->getAttribute('unit').' '.
+								$f->getAttribute('price').'€'.'<br>';
+						echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $pf->id, 'muuda' => $ft->getAttribute('id')], ['class' => 'btn btn-primary']).' ';
+						echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => 
+										$pf->id], 
+										[ 'class' => 'btn btn-danger', 'data' => 
+										[ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 
+										'method' => 'post',],]).'<br>';
+						$break = true;			
+					}
+				}
+				echo '<br>'.Html::a(Yii::t('app', 'Lisa komponent'), ['/product-field/create', 'id' => $id, 'lisa' => $ft->getAttribute('id')], ['class' => 'btn btn-success']);
+				echo '<br>';
+>>>>>>> 269efe6440aef2545ee0e9a8721396f40f2c21d2
 				if($break)
 				{
 					$break = false;
@@ -118,6 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			}
 			echo '<br>';
 		}
+		
 		?>
 </div>
 <?php

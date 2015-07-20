@@ -8,7 +8,7 @@ use app\models\Field;
 
 <div class="product-form">
     <?php $form = ActiveForm::begin(); ?>
-	<div class="hidden">
+	<div class="">
 		<?= $form->field($model, 'id')->textInput() ?>	
 		<?= $form->field($model, 'product_id')->textInput() ?>	
 		<?= $form->field($model, 'field_id')->textInput() ?>	

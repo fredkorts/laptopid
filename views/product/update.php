@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+		'soodus' => '',
     ]) ?>
 <?php 
 	$idx = 0;
@@ -137,29 +138,23 @@ echo '</script>';
 	{
 		var data;
 		$('form').each(function( index, element ) {
-			if(index == 0)
+			// TODO: (20.07.2015 Caupo) kuidagi panna salvestama ka main product form. Hetkel dno why seda ei leita.
+			var _id = parseInt($("#productfield-id.form-control").eq(index).val());
+			var _field_id = parseInt($("#productfield-field_id.form-control").eq(index).val());
+			var _product_id = parseInt($("#productfield-product_id.form-control").eq(index).val());
+			if(!isNaN(_id) && _id > 0 && !isNaN(_field_id) && _field_id > 0 && !isNaN(_product_id) && _product_id > 0)
 			{
-				$.post( '/index.php/product/update' );
+				var posting = $.post( '/index.php/product-field/update/<?php echo $pid; ?>', { 'id': _id, 'product_id': _product_id, 'field_id': _field_id } );
+				posting.done(function( data ) {
+				  $( "#result" ).append( data );
+				});
 			}
-			else
+			else if(!isNaN(_field_id) && _field_id > 0 && !isNaN(_product_id) && _product_id > 0)
 			{
-				var _id = parseInt($("#productfield-id.form-control").eq(index).val());
-				var _field_id = parseInt($("#productfield-field_id.form-control").eq(index).val());
-				var _product_id = parseInt($("#productfield-product_id.form-control").eq(index).val());
-				if(!isNaN(_id) && _id > 0 && !isNaN(_field_id) && _field_id > 0 && !isNaN(_product_id) && _product_id > 0)
-				{
-					var posting = $.post( '/index.php/product-field/update/<?php echo $pid; ?>', { 'id': _id, 'product_id': _product_id, 'field_id': _field_id } );
-					posting.done(function( data ) {
-					  $( "#result" ).append( data );
-					});
-				}
-				else
-				{
-					var posting = $.post( '/index.php/product-field/create/<?php echo $pid; ?>', { 'product_id': _product_id, 'field_id': _field_id } );
-					posting.done(function( data ) {
-					  $( "#result" ).append( data );
-					});
-				}
+				var posting = $.post( '/index.php/product-field/create/<?php echo $pid; ?>', { 'product_id': _product_id, 'field_id': _field_id } );
+				posting.done(function( data ) {
+				  $( "#result" ).append( data );
+				});
 			}
 		});
 		

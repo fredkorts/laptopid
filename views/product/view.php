@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Product;
-/* @var $this yii\web\View */
-/* @var $model app\models\Product */
-$id = Yii::$app->getRequest()->getQueryParam('id');
-$product = Product::findOne($id);
-$this->title = $product->mfr.' '.$product->model;;
+use app\models\ProductField;
+use app\models\Field;
+use app\models\FieldType;
+
+$this->title = $model->mfr.' '.$model->model;
 if ($model->cut_price > 0){
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Soodustooted'), 'url' => ['index']];
 } else {
@@ -36,13 +36,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'mfr',
             'model',
+			'description:ntext',
             'price',
             'cut_price',
             'stock',
             'active',
-            'description:ntext',
             'highlighted',
         ],
-    ]) ?>
-
+    ]); ?>
+	<?php 
+	$pf = ProductField::findOne(['product_id' => $model->id]);
+	if(count($pf) > 0) echo '<h3>Komponendid</h3>';
+		$id = $model->id;
+		$product_fields = ProductField::find()->where(['product_id' => $id])->all();
+		foreach($product_fields as $pf){
+				$f = Field::findOne($pf->getAttribute('field_id'));
+				$ft = FieldType::findOne($f->type_id);
+				echo $ft->name. ': ';
+				echo $f->name.' ';
+				echo $f->model.' ';
+				if($ft->getAttribute('name') == 'Protsessor'){
+					echo $f->value/1000;
+				} else {
+					echo $f->value;
+				}								
+				echo $f->unit.' '.'<br>';
+			}
+	?>
 </div>

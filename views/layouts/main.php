@@ -33,12 +33,14 @@ $pages = $command->queryAll();
 
 $menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
 $menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
-foreach($pages as $p)
-{
-	$menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
-}
+$menuItems[] = ['label' => 'Komponendid', 'url' => ['/field']];
+// Staatilised lehed - hiljem välja kommenteerida
+// foreach($pages as $p)
+// {
+	// $menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
+// }
 
-//Set nav item active when urls match
+// Set nav item active when urls match
 foreach($menuItems as $key=>$item) {
 	if($item['url'][0] == "/".Yii::$app->request->pathInfo)
 		$menuItems[$key]['active'] = true;
@@ -68,7 +70,7 @@ foreach($menuItems as $key=>$item) {
                 ],
             ]);
 			echo Nav::widget([
-				'options' => ['class' => 'navbar-nav navbar-right'],
+				'options' => ['class' => 'navbar-nav navbar-left'],
 				'items' => $menuItems,
 			]);
             NavBar::end();
@@ -84,7 +86,7 @@ foreach($menuItems as $key=>$item) {
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <p class="pull-left">&copy; Laptopid.ee <?= date('Y') ?></p>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
