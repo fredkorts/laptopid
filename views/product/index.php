@@ -33,7 +33,6 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
 	<?php foreach($models as $model) 
 	{ ?>
     <p>
-        <?= Html::a(Yii::t('app', 'Lisa/muuda komponente'), ['/product-field/create', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Muuda'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Kustuta'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -60,28 +59,35 @@ if(Yii::$app->getRequest()->getPathInfo() == 'product')
         ],
     ]);
 	if(count($model->field) > 0) echo '<h3>Komponendid</h3>';
-	for($i = 0; $i < count($model->field); $i++)
+	
+	$pfids = array();
+	foreach($model->field_type[0] as $ft)
 	{
-		for($t = 0; $t < count($model->field_type); $t++)
+		echo $ft->getAttribute('name').':<br>';
+		foreach($model->product_field as $pf)
 		{
-			if($model->field_type[$t][0]->getAttribute('id') == $model->field[$i][0]->getAttribute('type_id'))
-			{
-				echo $model->field_type[$t][0]->getAttribute('name').': ';
-				break;
+			for($i = 0; $i < count($model->field); $i++)
+			{		
+				$break = false;
+				foreach($pfids as $pfid)
+				{
+					if($pfid == $pf->getAttribute('id'))
+					{
+						$break = true;
+					}
+				}
+				if($break)
+				{
+					break;
+				}
+				if($model->field[$i][0]->getAttribute('type_id') == $ft->getAttribute('id') && $pf->getAttribute('field_id') == $model->field[$i][0]->getAttribute('id'))
+				{
+					$pfids[] = $pf->getAttribute('id');
+					echo $model->field[$i][0]->name.' ';
+					echo $model->field[$i][0]->model.'<br>';
+				}
 			}
 		}
-		echo $model->field[$i][0]->name.' ';
-		echo $model->field[$i][0]->model.' ';
-		
-		if($model->field_type[$i][0]->name == 'Protsessor'){
-			echo $cnv->cnv($model->field[$i][0]->value);
-		} else {
-			echo $model->field[$i][0]->value;
-		}
-		echo $model->field[$i][0]->unit.'<br>';
-		// echo Html::a(Yii::t('app', 'Muuda komponenti'), ['/product-field/update', 'id' => $model->product_field[$i]->id], ['class' => 'btn btn-primary']).' ';
-		// echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => $model->product_field[$i]->id], [ 'class' => 'btn btn-danger', 'data' => [ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 'method' => 'post',],]);
-		//echo '<br><br>';
 	}
 	echo '<br>';
 	}?>

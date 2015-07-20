@@ -20,6 +20,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
 	<script type="text/javascript" src="/js/jQuery-Autocomplete/scripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="/js/jquery/jquery.form.js"></script>
 	<script type="text/javascript" src="/js/jQuery-Autocomplete/src/jquery.autocomplete.js"></script>
     <?php $this->head() ?>
 </head>

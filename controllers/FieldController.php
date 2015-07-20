@@ -57,7 +57,7 @@ class FieldController extends \yii\web\Controller
     {
         return $this->render('view');
     }
-<<<<<<< HEAD
+
 	public function actionGetFieldsByType()
 	{
 		$id = Yii::$app->getRequest()->getQueryParam('id');
@@ -78,6 +78,4 @@ class FieldController extends \yii\web\Controller
 		}*/
 		return $fields;
 	}
-=======
->>>>>>> ed800b91625eaa8b5e7eb22e803df417ac0ed2ae
 }

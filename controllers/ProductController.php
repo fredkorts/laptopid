@@ -45,16 +45,12 @@ class ProductController extends Controller
 		}
 		foreach($models as $model)
 		{
-			$product_fields = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();
-			foreach ($product_fields as $pf) {
+			$model->product_field = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();			
+			$model->field_type[] = FieldType::find()->orderBy('order_by')->all();
+			foreach ($model->product_field as $pf) {
 				$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
 				$model->field[] = $field;
-				foreach ($field as $f) {
-					$field_type = FieldType::find()->where(['id' => $f->getAttribute('type_id')])->all();
-					$model->field_type[] = $field_type;
-				}
 			}
-			$model->product_field = $product_fields;
 		}
 
         return $this->render('index', [
@@ -175,7 +171,7 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -208,6 +204,16 @@ class ProductController extends Controller
      * @return Product the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+	public function actionGetfieldname($id)
+	{
+		$field = Field::find()->where(['id' => $id])->one();
+		if($field)
+		{
+			return $field->getAttribute('name').' '.$field->getAttribute('model').' '.$field->getAttribute('value');
+		}
+		return "";
+	}
+	 
     protected function findModel($id)
     {
         if (($model = Product::findOne($id)) !== null) {
