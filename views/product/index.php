@@ -27,12 +27,24 @@ foreach($models as $m){
 	foreach($models as $m){
 		if($m->cut_price > 0){ ?>
 			<p>
-				<?= Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'], ['class' => 'btn btn-success']) ?>
+				<?= Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'],[
+				'class' => 'btn btn-success', 
+				'data' => [
+					'confirm' => Yii::t('app', 'Kas soovite lisada uut soodustoodet?'),
+					'method' => 'post',
+				],
+			]) ?>
 			</p>
 <?php 		break; 
 		} else { ?>
 			<p>
-				<?= Html::a(Yii::t('app', 'Lisa toode'), ['create'], ['class' => 'btn btn-success']) ?>
+				<?= Html::a(Yii::t('app', 'Lisa toode'), ['create'], [
+					'class' => 'btn btn-success',
+					'data' => [
+						'confirm' => Yii::t('app', 'Kas soovite lisada uut toodet?'),
+						'method' => 'post',
+					],
+				]) ?>
 			</p>
 <?php 		break; 
 		}

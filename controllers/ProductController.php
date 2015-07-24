@@ -78,30 +78,35 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-		$model->cut_price = 0;
+			$model->setAttribute('mfr', '-');
+			$model->setAttribute('model', '-');
+			$model->setAttribute('description', '-');
+			$model->setAttribute('price', 0);
+			$model->setAttribute('cut_price', .0);
+			$model->setAttribute('stock', 0);
+			$model->setAttribute('active', 0);
+			$model->setAttribute('highlighted', 0);
+		$model->save();
 		
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,	
-				'soodus' => false,
-            ]);
-        }
+		return $this->redirect(['update', 'id' => $model->id]);
+
     }
 	
 	public function actionCreateCut()
 	{
-        $model = new Product();
-		$isCut = 1;
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {			
-          return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create_cut', [
-                'model' => $model,
-				'soodus' => true,
-            ]);
-    }
+       $model = new Product();
+			$model->setAttribute('mfr', '0');
+			$model->setAttribute('model', '0');
+			$model->setAttribute('description', '0');
+			$model->setAttribute('price', 0);
+			$model->setAttribute('cut_price', 0);
+			$model->setAttribute('stock', 0);
+			$model->setAttribute('active', 0);
+			$model->setAttribute('highlighted', 0);
+		$model->save();
+		
+		return $this->redirect(['update', 'id' => $model->id]);
+	
 	}
 
 	public function actionCopy()
@@ -167,7 +172,7 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->id]);
+			return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

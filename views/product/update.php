@@ -6,107 +6,61 @@ use app\models\FieldType;
 use app\models\ProductField;
 use app\models\Product;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Product */
+$soodus = '';
 $pid = $model->getAttribute('id');
-$this->title = 'Muuda: '.$model->mfr.' '.$model->model;
-if ($model->cut_price > 0){
+$p_name = $model->mfr.' '.$model->model;
+if($p_name == '- -'){
+	$this->title = Yii::t('app', 'Lisa toode');
+} else if($p_name == '0 0'){
+	$this->title = Yii::t('app', 'Lisa soodustoode');
+} else {
+	$this->title = Yii::t('app', 'Muuda: '.$p_name);
+}
+if ($model->cut_price > 0 || $p_name == '0 0'){
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Soodustooted'), 'url' => ['index']];
+	$soodus = true;
 } else {
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tooted'), 'url' => ['/product']];
+	$soodus = false;
 }
 $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 <div class="product-update">
 	
     <h1><?= Html::encode($this->title) ?></h1>
-
+	
     <?= $this->render('_form', [
         'model' => $model,
-		'soodus' => '',
+		'soodus' => $soodus,
     ]) ?>
-<?php 
-	$idx = 0;
-	$field_types = FieldType::find()->orderBy('order_by')->all();
-	foreach($field_types as $ft)
-	{
-		echo "<div id='pf_".$idx."'>";
-		$multiple = $ft->getAttribute('multiple');
-		$showed_component = false;
-		echo $ft->getAttribute('name').': ';
-		$fields = Field::find()->where(['type_id' =>$ft->getAttribute('id')])->all();
-		foreach($fields as $f)
-		{
-			$product_field = ProductField::find()->where(['field_id' => $f->getAttribute('id'), 'product_id' => $pid])->all();
-			foreach($product_field as $pf)
-			{
-				$showed_component = true;
-				
-				echo '<input autocomplete="off" id="productfield-field_id_'.$idx.'" value="'.$pf->getAttribute('field_id').'" class="form-control" type="text"><br>';;
-				echo $this->render('/product-field/_form', [ 'model' => $pf ]);
-				echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => 
-								$pf->id], 
-								[ 'class' => 'btn btn-danger', 'data' => 
-								[ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 
-								'method' => 'post',],]).'<br>';
-			}
-		}
-		if($multiple)
-		{
-			if(!$showed_component)
-			{
-				echo '<input autocomplete="off" id="productfield-field_id_'.$idx.'" class="form-control" type="text"><br>';;
-				echo $this->render('/product-field/_form', [ 'model' => new ProductField() ]);
-			}
-			// TODO: (16.07.2015 Caupo) Siia teha button, millele peale vajutades renderdab jqueryga uue product_field formi.
-			//		Kuid võib juhtuda, et jquery renderdatud formid ei pruugi saada andmeid kätte, kuna javascript varem koostatud or smth.
-			//		Siis sellisel juhul pakkuda välja laternative lahendus, et multiple komponentidele panna alguses hiddeniga mingi ~10 komponendi formi
-			//		Ja teha mingi nupp siia juurde, mis siis toggledab et hidden või mitte.
-		}
-		else
-		{
-			if(!$showed_component)
-			{
-				echo '<input autocomplete="off" id="productfield-field_id_'.$idx.'" class="form-control" type="text"><br>';;
-				echo $this->render('/product-field/_form', [ 'model' => new ProductField() ]);
-			}
-		}
-		$idx ++;
-		echo "</div>";
-		echo '<br>';
-	}
-?>
-</div>
+	<?= $this->render('_componentForm', [
+        'model' => $model,
+		'pid' => $pid,
+    ]) ?>
 
-<?php
-$field_types = FieldType::find()->orderBy('order_by')->all();
-echo '<script>';
-$index = 0;
-foreach($field_types as $ft)
-{
-	echo 'var components_'.$index.' = [';
-	$fields = Field::find()->where(['type_id' => $ft->getAttribute('id')])->all();
-	foreach($fields as $f)
-	{
-		echo "{ value: '".$f->getAttribute('name')." ".$f->getAttribute('model')."', data: '".$f->getAttribute('id')."' },";
-	}
-	echo '];';
-	echo "$('#pf_".$index." input[id=productfield-field_id_".$index."').autocomplete({";
-	echo "lookup: components_".$index.",";
-	echo "onSelect: function (suggestion) {";
-	echo "$('#pf_".$index." input[id=productfield-field_id]').val(suggestion.data);";
-	echo "$('#pf_".$index." input[id=productfield-product_id]').val(".$pid.");";
-	echo "$('#pf_".$index." input[id=productfield-field_id_".$index."]').val(suggestion.value);";
-	echo "}});";
-	$index ++;
-}
-echo '</script>';
-?>
 <script>
 	var idxx = 0;
+
 	$( document ).ready(function() {
+		// muudab input fieldida väärtused tühjaks
+		$( "[id^='product-']" ).each(function() {
+			if(	($ (this).val() == '0' 
+					|| $ (this).val() == '0.00' 
+				    || $ (this).val() == '-') 
+					&& $(this).attr('id') !== 'product-cut_price'){
+						
+				$ (this).val('');				
+			}
+		});
+		// input fieldile peale klikates highlightitakse väärtus
+		$( "input[id^='product-']").on("click", function () {
+					$(this).select();
+		});
+
 		$( "input[id^='productfield-field_id']" ).each(function( index, element ) {
-			var _val = parseInt($(this).val()); // _val on pf.field_id
+			var _val = parseInt($(this).val()); 
 			if(_val > 0)
 			{
 				$.ajax({
@@ -114,6 +68,15 @@ echo '</script>';
 				  context: document.body,
 				  dataType: "text"
 				}).done(function(data) {
+					
+					// input fieldile peale klikates highlightitakse väärtus
+					$( "input[id^='product-']").on("click", function () {
+							$(this).select();
+					});
+					$( "input[id^='productfield-field']").on("click", function () {
+							$(this).select();
+					});
+					
 					$( "input[id^='productfield-field_id_']" ).each(function( index, element ) {
 						var _idx = 0;
 						var _val1 = parseInt($(this).attr('value'));
@@ -129,7 +92,6 @@ echo '</script>';
 		});
 	});
 </script>
- <button type="button" onclick="salvesta()" class="btn btn-success">Salvesta</button> 
  <script>
 	function salvesta()
 	{

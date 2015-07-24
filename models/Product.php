@@ -39,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mfr', 'model', 'price', 'cut_price', 'stock', 'active', 'description'], 'required'],
+            [['mfr','model','description','price','cut_price','stock'], 'required'],
             [['price', 'cut_price'], 'number'],
             [['stock', 'active', 'highlighted'], 'integer'],
             [['description'], 'string'],

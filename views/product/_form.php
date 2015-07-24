@@ -16,19 +16,25 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+	<?php 
+
 	
-    <?php if(!(Yii::$app->getRequest()->getPathInfo() == 'product/create')){ ?>		
-		<?=$form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
-	<?php } ?> 
-	<?php if(!$model->isNewRecord && $model->cut_price <= 0){
+	if(!$soodus) {
 		echo 
 		'<table style="width:15%">
 			<tr>
-			<td><input type="checkbox" id="isCut" name="isCut"></td>
-				<td><strong>Lisa soodushind?</strong></td>				
+				<td><input type="checkbox" id="isCut" name="isCut"></td>
+				<td>Lisa soodushind?</td>				
 			</tr>
 		</table>';
 	} ?>
+	<div id="cut_price" style="display:none">
+		<?php echo $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
+	</div>
+	
+	<?php 
+	if($soodus) 
+		echo $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
 	
     <?= $form->field($model, 'stock')->textInput() ?>
     <?= $form->field($model, 'active')->checkbox() ?>
