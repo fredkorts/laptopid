@@ -16,6 +16,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'user' => [
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -59,40 +63,9 @@ $config = [
 		'authManager' => [
 						   'class' => 'yii\rbac\DbManager',
 						   'defaultRoles' => ['guest'],
-		],		
-		'view' => [
-			'theme' => [
-				'pathMap' => [
-					'@dektrium/user/views' => '@app/views/user'
-				],
-			],
-		],
+		  ],
     ],
     'params' => $params,
-	'modules' => [
-		'gii' => [
-			'class'=>'system.gii.GiiModule',
-			'linkAssets' => true,
-        ],
-		'user' => [
-			'class' => 'dektrium\user\Module',	
-			'modelMap' => [			
-				'User' => [
-					'class' => 'app\models\User',
-				],
-			],
-			'controllerMap' => [
-				'admin' => [
-					'class'  => 'app\controllers\user\AdminController',
-					//'layout' => 'path-to-your-admin-layout',
-				],
-				'app\controllers\user\AdminController',
-				'enableUnconfirmedLogin' => true,
-				'cost' => 12,
-			],
-			'admins' => ['Caupo9'],
-		],
-	],
 ];
 
 if (YII_ENV_DEV) {

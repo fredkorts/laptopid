@@ -1,18 +1,16 @@
 <?php
 
 namespace app\models;
-use \dektrium\user\controllers\AdminController;
 
-class User extends \dektrium\user\models\User
+class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
     public $password;
     public $authKey;
     public $accessToken;
-	public $scenario;
 
-    /*private static $users = [
+    private static $users = [
         '100' => [
             'id' => '100',
             'username' => 'admin',
@@ -27,7 +25,7 @@ class User extends \dektrium\user\models\User
             'authKey' => 'test101key',
             'accessToken' => '101-token',
         ],
-    ];*/
+    ];
 
     /**
      * @inheritdoc
@@ -102,13 +100,4 @@ class User extends \dektrium\user\models\User
     {
         return $this->password === $password;
     }
-    public static function find()
-    {
-        return new UserQuery(get_called_class());
-    }
-	
-	public static function primaryKey()
-	{
-		return ['id'];
-	}
 }

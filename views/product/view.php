@@ -51,18 +51,16 @@ $this->params['breadcrumbs'][] = $this->title;
 		$product_fields = ProductField::find()->where(['product_id' => $id])->all();
 		foreach($product_fields as $pf){
 				$f = Field::findOne($pf->getAttribute('field_id'));
-				
-				$field_types = FieldType::find()->all();
-				foreach($field_types as $ft){
-					echo $ft->name. ': ';
-					if($f->type_id == $ft->id){
-						echo $f->name.' ';
-						echo $f->model.' ';
-						echo $f->value;								
-						echo $f->unit.' ';
-					}
-					echo '<br>';
-				}			
+				$ft = FieldType::findOne($f->type_id);
+				echo $ft->name. ': ';
+				echo $f->name.' ';
+				echo $f->model.' ';
+				if($ft->getAttribute('name') == 'Protsessor'){
+					echo $f->value/1000;
+				} else {
+					echo $f->value;
+				}								
+				echo $f->unit.' '.'<br>';
 			}
 	?>
 </div>
