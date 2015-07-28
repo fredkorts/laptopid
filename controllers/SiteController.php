@@ -27,7 +27,7 @@ class SiteController extends \yii\web\Controller
             ]);
         }
     }
-			
+	
 	public function actionPage($id)
     {
 		$model = Page::findOne($id);

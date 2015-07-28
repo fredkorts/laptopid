@@ -23,13 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
 		'soodus' => '',
     ]) ?>
-<<<<<<< HEAD
 	    <?= $this->render('_componentForm', [
         'model' => $model,
 		'pid' => $pid,
     ]) ?>	
 </div>
-=======
 <?php 
 	$idx = 0;
 	$field_types = FieldType::find()->orderBy('order_by')->all();
@@ -164,4 +162,3 @@ echo '</script>';
 		$("#w0").submit();
 	}
 </script>
->>>>>>> 06a6b3fe77ba4aae68c57bf22c7cbe502ab2c96c
