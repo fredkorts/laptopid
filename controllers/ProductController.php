@@ -82,7 +82,6 @@ class ProductController extends Controller
 			$model->setAttribute('model', '-');
 			$model->setAttribute('description', '-');
 			$model->setAttribute('price', 0);
-			$model->setAttribute('cut_price', .0);
 			$model->setAttribute('stock', 0);
 			$model->setAttribute('active', 0);
 			$model->setAttribute('highlighted', 0);
@@ -99,7 +98,6 @@ class ProductController extends Controller
 			$model->setAttribute('model', '0');
 			$model->setAttribute('description', '0');
 			$model->setAttribute('price', 0);
-			$model->setAttribute('cut_price', 0);
 			$model->setAttribute('stock', 0);
 			$model->setAttribute('active', 0);
 			$model->setAttribute('highlighted', 0);
