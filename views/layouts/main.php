@@ -34,6 +34,7 @@ $pages = $command->queryAll();
 $menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
 $menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
 $menuItems[] = ['label' => 'Komponendid', 'url' => ['/field']];
+$menuItems[] = ['label' => 'Für admin', 'url' => ['/user/admin']];
 // Staatilised lehed - hiljem välja kommenteerida
 // foreach($pages as $p)
 // {
@@ -63,7 +64,7 @@ foreach($menuItems as $key=>$item) {
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
+                        ['label' => 'Login', 'url' => ['/user/security/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],

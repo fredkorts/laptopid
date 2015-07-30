@@ -16,10 +16,6 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -44,6 +40,9 @@ $config = [
 				'product-field/create/<id:\d+>' => 'product-field/create',
 				'field/get-fields-by-type/<id:\d+>' => 'field/get-fields-by-type',
 				
+				'user/login' 	=> 'user/security/login',
+	
+				
 				'<controller:\w+>/<id:\d+>' => '<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 				'<controller:\w+>/<action:\w+>/<id:\d+>/<pageName>' => '<controller>/<action>',
@@ -65,6 +64,16 @@ $config = [
 						   'defaultRoles' => ['guest'],
 		  ],
     ],
+	'modules' => [
+			'user' => [
+			'class' => 'dektrium\user\Module',
+			'enableUnconfirmedLogin' => true,
+			'confirmWithin' => 21600,
+			'cost' => 12,
+			'admins' => ['admin', 'tanel']
+		],
+
+	],
     'params' => $params,
 ];
 
