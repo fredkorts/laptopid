@@ -27,19 +27,30 @@ AppAsset::register($this);
 <body>
 
 <?php 
+$identity = Yii::$app->user->identity;
+$is_admin = false;
+if(isset($identity))
+{
+	$is_admin = $identity->isAdmin;	
+}
+
 $connection = Yii::$app->db;
 $command = $connection->createCommand("SELECT * FROM page WHERE main_menu = 1 ORDER BY id DESC");
 $pages = $command->queryAll();
 
 $menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
 $menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
-$menuItems[] = ['label' => 'Komponendid', 'url' => ['/field']];
-$menuItems[] = ['label' => 'Für admin', 'url' => ['/user/admin']];
-// Staatilised lehed - hiljem välja kommenteerida
-// foreach($pages as $p)
-// {
-	// $menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
-// }
+if($is_admin)
+{
+	$menuItems[] = ['label' => 'Komponendid', 'url' => ['/field']];
+	$menuItems[] = ['label' => 'Kasutajad', 'url' => ['/user/admin']];	
+}
+$menuItems[] = ['label' => 'Ostukorv', 'url' => ['/cart/index']];
+
+ foreach($pages as $p)
+ {
+	 $menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
+ }
 
 // Set nav item active when urls match
 foreach($menuItems as $key=>$item) {

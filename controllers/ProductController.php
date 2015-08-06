@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii2mod\cart\Cart;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -221,4 +222,12 @@ class ProductController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+	public function actionToCart($id)
+	{
+		$model = Product::findOne($id);
+		$cart = \Yii::$app->cart;
+		$cart->add($model);
+		return count($cart->getItems());
+	}
 }

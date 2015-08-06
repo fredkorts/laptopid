@@ -62,17 +62,19 @@ $config = [
 		'authManager' => [
 						   'class' => 'yii\rbac\DbManager',
 						   'defaultRoles' => ['guest'],
-		  ],
+		 ],
+		'cart' => [
+			'class' => 'yii2mod\cart\Cart',
+		],
     ],
 	'modules' => [
-			'user' => [
+		'user' => [
 			'class' => 'dektrium\user\Module',
 			'enableUnconfirmedLogin' => true,
 			'confirmWithin' => 21600,
 			'cost' => 12,
-			'admins' => ['admin', 'tanel']
+			'admins' => ['admin', 'tanel', 'Caupo9'],
 		],
-
 	],
     'params' => $params,
 ];

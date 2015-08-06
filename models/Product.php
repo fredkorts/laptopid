@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii2mod\cart\models\CartItemInterface;
 
 /**
  * This is the model class for table "product".
@@ -19,7 +20,7 @@ use Yii;
  *
  * @property ProductField[] $productFields
  */
-class Product extends \yii\db\ActiveRecord
+class Product extends \yii\db\ActiveRecord implements CartItemInterface
 {
     /**
      * @inheritdoc
@@ -82,4 +83,14 @@ class Product extends \yii\db\ActiveRecord
     {
         return new ProductQuery(get_called_class());
     }
+	
+	public function getLabel()
+	{
+		return $this->model;
+	}
+	
+	public function getUniqueId()
+	{
+		return $this->id;
+	}
 }

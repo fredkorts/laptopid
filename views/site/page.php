@@ -11,10 +11,19 @@ if (isset($model->id) && $model->id >= 1)
 
 if (isset($message))
 	echo '<div class="alert alert-success" role="alert">'.$message.'</div>';
+
+$identity = Yii::$app->user->identity;
+$is_admin = false;
+if(isset($identity))
+{
+	$is_admin = $identity->isAdmin;	
+}
 ?>
 <div class="page-container">
-	<?php echo (Yii::$app->user->isGuest ? '' : '<a href="'.Url::to(['edit/page/'.$model->id]).'" class="edit-page"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Muuda lehekülge</a>') ?>
     <h1><?= Html::encode($model->title); ?></h1>
+	<?php if($is_admin) {
+		echo (Yii::$app->user->isGuest ? '' : '<a href="'.Url::to(['edit/page/'.$model->id]).'" class="edit-page"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Muuda lehekülge</a>');
+	}?>
 	<div class="page-content">
 		<?= $model->content ?>
 		
