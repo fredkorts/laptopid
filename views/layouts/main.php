@@ -25,7 +25,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
+ 
 <?php 
 $identity = Yii::$app->user->identity;
 $is_admin = false;
@@ -40,17 +40,19 @@ $pages = $command->queryAll();
 
 $menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
 $menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
+$menuItems[] = ['label' => 'Ostukorv('.count(Yii::$app->cart->getItems()).')', 'url' => ['/cart/index']];
+
 if($is_admin)
 {
 	$menuItems[] = ['label' => 'Komponendid', 'url' => ['/field']];
 	$menuItems[] = ['label' => 'Kasutajad', 'url' => ['/user/admin']];	
 }
-$menuItems[] = ['label' => 'Ostukorv', 'url' => ['/cart/index']];
 
- foreach($pages as $p)
- {
-	 $menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
- }
+// Staatilised lehed
+// foreach($pages as $p)
+// {
+	// $menuItems[] = ['label' => $p['label'], 'url' => ['/page/'.$p['id'].'/'.$p['route']]];
+// }
 
 // Set nav item active when urls match
 foreach($menuItems as $key=>$item) {
@@ -75,8 +77,8 @@ foreach($menuItems as $key=>$item) {
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/user/security/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['label' => 'Logi sisse', 'url' => ['/user/security/login']] :
+                        ['label' => 'Logi välja (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],

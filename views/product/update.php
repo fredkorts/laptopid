@@ -38,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 	
 	<?= $this->render('_componentForm', [
-        'model' => $model,
 		'pid' => $pid,
     ]) ?>
 	

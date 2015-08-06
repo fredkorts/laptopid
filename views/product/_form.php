@@ -18,25 +18,18 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 	<?php 	
 	if(!$soodus) {
-		echo 
-		'<table style="width:15%">
-			<tr>
-				<td><input type="checkbox" id="isCut" name="isCut"></td>
-				<td>Lisa soodushind?</td>				
-			</tr>
-		</table>';
+		echo '<label class="cbx-label" for="isCut">Lisa soodushind?</label>';	
+		echo '<input type="checkbox" id="isCut" name="isCut">';
+		?>
+		<div id="cut_price" style="display:none">
+			<?= $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
+		</div>
+<?php
 	} else {
 		echo $form->field($model, 'cut_price')->textInput(['maxlength' => true]);
 	} 		
-	?>
-
-	<div id="cut_price" style="display:none">
-		<?= $form->field($model, 'cut_price')->textInput(['maxlength' => true]);?>
-	</div>
+?>
 	
- 
-
-
     <?= $form->field($model, 'stock')->textInput() ?>
     <?= $form->field($model, 'active')->checkbox() ?>
     <?= $form->field($model, 'highlighted')->checkbox() ?>
@@ -44,13 +37,9 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 	
 <script>
-<?php if(!$model->isNewRecord && $model->cut_price <= 0){
-	$this->registerJs('
-	$("#cut_price").hide();
 	$("#isCut").click(function () {
 		$("#cut_price").toggle(500);
-});');
-} ?>
+	});
 </script>
 <script>
 	var idxx = 0;
@@ -58,9 +47,9 @@ use yii\widgets\ActiveForm;
 	$( document ).ready(function() {
 		// muudab input fieldida väärtused tühjaks
 		$( "[id^='product-']" ).each(function() {
-			if(	(($ (this).val() == '0' && $ (this).attr('id') !== 'product-cut_price')
-					|| ($ (this).val() == '0.00'  && $ (this).attr('id') !== 'product-cut_price')
-				    || $ (this).val() == '-'))	{						
+			if(	$ (this).val() == '0' 
+					|| $ (this).val() == '0.00' 
+				    || $ (this).val() == '-')	{						
 				$ (this).val('');				
 			}
 		});

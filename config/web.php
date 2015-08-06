@@ -40,7 +40,17 @@ $config = [
 				'product-field/create/<id:\d+>' => 'product-field/create',
 				'field/get-fields-by-type/<id:\d+>' => 'field/get-fields-by-type',
 				
-				'user/login' 	=> 'user/security/login',
+				'user/login' 		=> 'user/security/login',
+				'user/register' 	=> 'user/registration/register',
+				'user/resend' 		=> 'user/registration/resend',
+				'user/confirm' 		=> 'user/registration/confirm',
+				'user/logout' 		=> 'user/security/logout',
+				'user/request' 		=> 'user/recovery/request',
+				'user/reset' 		=> 'user/recovery/reset',
+				'user/profile' 		=> 'user/settings/profile',
+				'user/account' 		=> 'user/settings/account',
+				'user/networks' 	=> 'user/settings/networks',
+				'user/show' 		=> 'user/profile/show',
 	
 				
 				'<controller:\w+>/<id:\d+>' => '<controller>/view',
@@ -73,7 +83,10 @@ $config = [
 			'enableUnconfirmedLogin' => true,
 			'confirmWithin' => 21600,
 			'cost' => 12,
-			'admins' => ['admin', 'tanel', 'Caupo9'],
+			'admins' => ['admin', 'tanel', 'Caupo'],
+		],
+		 'rbac' => [
+			'class' => 'dektrium\rbac\Module',
 		],
 	],
     'params' => $params,

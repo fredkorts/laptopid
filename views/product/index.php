@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-if($models[0]->cut_price > 0)
+if($soodus)
 {			
 	$this->title = Yii::t('app', 'Soodustooted');	
 	$this->params['breadcrumbs'][] = 'Soodustooted';
@@ -23,32 +23,32 @@ if(isset($identity))
     <h1><?= Html::encode($this->title) ?></h1>
 
 <?php
+	
+	if($is_admin)
+	{
+		if($soodus){
+			echo '<p>';
+				echo Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'],[
+					'class' => 'btn btn-success', 
+					'data' => [
+						'confirm' => Yii::t('app', 'Kas soovite lisada uut soodustoodet?'),
+						'method' => 'post',
+					],
+				]);
+			echo '</p>';
+		} else {
+			echo '<p>';
+				echo Html::a(Yii::t('app', 'Lisa toode'), ['create'], [
+					'class' => 'btn btn-success',
+					'data' => [
+						'confirm' => Yii::t('app', 'Kas soovite lisada uut toodet?'),
+						'method' => 'post',
+					],
+				]);
+			echo '</p>';
+		}	
+	}
 	foreach($models as $m){
-		if($is_admin)
-		{
-			if($m->cut_price > 0){
-				echo '<p>';
-					echo Html::a(Yii::t('app', 'Lisa soodustoode'), ['create-cut'],[
-						'class' => 'btn btn-success', 
-						'data' => [
-							'confirm' => Yii::t('app', 'Kas soovite lisada uut soodustoodet?'),
-							'method' => 'post',
-						],
-					]);
-				echo '</p>';
-			} else {
-				echo '<p>';
-					echo Html::a(Yii::t('app', 'Lisa toode'), ['create'], [
-						'class' => 'btn btn-success',
-						'data' => [
-							'confirm' => Yii::t('app', 'Kas soovite lisada uut toodet?'),
-							'method' => 'post',
-						],
-					]);
-				echo '</p>';
-			}	
-		}
-		
 		if($is_admin)
 		{
 			echo Html::a(Yii::t('app', 'Muuda'), ['update', 'id' => $m->id], ['class' => 'btn btn-primary']);
@@ -65,7 +65,7 @@ if(isset($identity))
 		echo $m->mfr.' ';
 		echo $m->model.' | ';
 		
-		if($m->cut_price > 0)
+		if($soodus)
 		{
 			$price = $m->cut_price;
 		}
@@ -109,11 +109,6 @@ if(isset($identity))
 </div>
 
 <script>
-	var cart_items = <?php echo count(\Yii::$app->cart->getItems()); ?>;
-	$( document ).ready(function() {
-		$('a[href^="/index.php/cart/index"]').text('Ostukorv('+ cart_items +')');
-	});
-
 	function AddToCart(id)
 	{
 		$.ajax({

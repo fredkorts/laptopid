@@ -38,11 +38,13 @@ class ProductController extends Controller
     {
 		if(Yii::$app->getRequest()->getPathInfo() == 'product')
 		{
-			$models = Product::find()->where(['=', 'cut_price', 0])->all();
+			$models = Product::find()->where(['=', 'cut_price', 0])->all();		
+			$soodus = false;
 		}
 		else
 		{	
 			$models = Product::find()->where(['>', 'cut_price', 0])->all();
+			$soodus = true;
 		}
 		foreach($models as $model)
 		{
@@ -56,6 +58,7 @@ class ProductController extends Controller
 
         return $this->render('index', [
             'models' => $models,
+			'soodus' => $soodus,
         ]);
     }
 
@@ -83,9 +86,10 @@ class ProductController extends Controller
 			$model->setAttribute('model', '-');
 			$model->setAttribute('description', '-');
 			$model->setAttribute('price', 0);
+			$model->setAttribute('cut_price', 0);
 			$model->setAttribute('stock', 0);
-			$model->setAttribute('active', 0);
-			$model->setAttribute('highlighted', 0);
+			$model->setAttribute('active', 1);
+			
 		$model->save();
 		
 		return $this->redirect(['update', 'id' => $model->id]);
@@ -99,9 +103,10 @@ class ProductController extends Controller
 			$model->setAttribute('model', '0');
 			$model->setAttribute('description', '0');
 			$model->setAttribute('price', 0);
+			$model->setAttribute('cut_price', 0);
 			$model->setAttribute('stock', 0);
-			$model->setAttribute('active', 0);
-			$model->setAttribute('highlighted', 0);
+			$model->setAttribute('active', 1);
+			
 		$model->save();
 		
 		return $this->redirect(['update', 'id' => $model->id]);
@@ -170,13 +175,13 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 		
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+		if($model->getAttribute('cut_price') == null){
+			$model->setAttribute('cut_price', '0.00');
+		}
+		
+		$model->load(Yii::$app->request->post());
+		$model->save();
+        return $this->render('update', ['model' => $model]);
     }
 
     /**
