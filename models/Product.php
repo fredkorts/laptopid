@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii2mod\cart\models\CartItemInterface;
+use comparison\comparison\models\ComparisonItemInterface;
 
 /**
  * This is the model class for table "product".
@@ -20,7 +21,7 @@ use yii2mod\cart\models\CartItemInterface;
  *
  * @property ProductField[] $productFields
  */
-class Product extends \yii\db\ActiveRecord implements CartItemInterface
+class Product extends \yii\db\ActiveRecord implements CartItemInterface, ComparisonItemInterface
 {
     /**
      * @inheritdoc

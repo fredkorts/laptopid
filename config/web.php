@@ -76,6 +76,9 @@ $config = [
 		'cart' => [
 			'class' => 'yii2mod\cart\Cart',
 		],
+		'comparison' => [
+			'class' => 'comparison\comparison\Comparison',
+		],
     ],
 	'modules' => [
 		'user' => [

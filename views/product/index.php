@@ -103,6 +103,7 @@ if(isset($identity))
 			}
 		}
 		echo '<br>';
+		echo '<button onclick="AddToComparison('.$m->id.')">Võrdle</button>';
 		echo '<button onclick="AddToCart('.$m->id.')">'.$price.'</button>';
 		echo '<br><br>';
 	} ?>
@@ -115,6 +116,14 @@ if(isset($identity))
 			url: "/index.php/product/to-cart?id="+id,
 		}).done(function(data) {
 			$('a[href^="/index.php/cart/index"]').text('Ostukorv('+ data +')');
+		});
+	}
+	function AddToComparison(id)
+	{
+		$.ajax({
+			url: "/index.php/product/to-comparison?id="+id,
+		}).done(function(data) {
+			$('a[href^="/index.php/comparison/index"]').text('Võrdle('+ data +')');
 		});
 	}
 </script>

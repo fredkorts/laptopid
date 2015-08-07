@@ -41,6 +41,7 @@ $pages = $command->queryAll();
 $menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
 $menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
 $menuItems[] = ['label' => 'Ostukorv('.count(Yii::$app->cart->getItems()).')', 'url' => ['/cart/index']];
+$menuItems[] = ['label' => 'Võrdle('.count(Yii::$app->comparison->getItems()).')', 'url' => ['/comparison/index']];
 
 if($is_admin)
 {
