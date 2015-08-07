@@ -69,8 +69,17 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+		$model = $this->findModel($id);
+		
+		if($model->cut_price > 0){
+			$soodus = true;
+		} else {
+			$soodus = false;
+		}	
+		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+			'soodus' => $soodus,
         ]);
     }
 
@@ -230,31 +239,9 @@ class ProductController extends Controller
 	
 	public function actionToCart($id)
 	{
-		$model = Product::findOne($id);		
-		$model->product_field = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();			
-		$model->field_type[] = FieldType::find()->orderBy('order_by')->all();
-		foreach ($model->product_field as $pf) {
-			$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-			$model->field[] = $field;
-		}
-		
+		$model = Product::findOne($id);
 		$cart = \Yii::$app->cart;
 		$cart->add($model);
 		return count($cart->getItems());
-	}
-	
-	public function actionToComparison($id)
-	{
-		$model = Product::findOne($id);		
-		$model->product_field = ProductField::find()->where(['product_id' => $model->getAttribute('id')])->all();			
-		$model->field_type[] = FieldType::find()->orderBy('order_by')->all();
-		foreach ($model->product_field as $pf) {
-			$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
-			$model->field[] = $field;
-		}
-		
-		$comparison = \Yii::$app->comparison;
-		$comparison->add($model);
-		return count($comparison->getItems());
 	}
 }

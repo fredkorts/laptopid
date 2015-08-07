@@ -76,9 +76,6 @@ $config = [
 		'cart' => [
 			'class' => 'yii2mod\cart\Cart',
 		],
-		'comparison' => [
-			'class' => 'comparison\comparison\Comparison',
-		],
     ],
 	'modules' => [
 		'user' => [
@@ -86,7 +83,7 @@ $config = [
 			'enableUnconfirmedLogin' => true,
 			'confirmWithin' => 21600,
 			'cost' => 12,
-			'admins' => ['admin', 'tanel', 'Caupo'],
+			'admins' => ['admin', 'tanel', 'Caupo9'],
 		],
 		 'rbac' => [
 			'class' => 'dektrium\rbac\Module',
