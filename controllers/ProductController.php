@@ -69,8 +69,17 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+		$model = $this->findModel($id);
+		
+		if($model->cut_price > 0){
+			$soodus = true;
+		} else {
+			$soodus = false;
+		}	
+		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+			'soodus' => $soodus,
         ]);
     }
 

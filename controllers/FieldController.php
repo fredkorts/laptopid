@@ -4,11 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Field;
-use yii\data\ActiveDataProvider;
+use app\models\FieldSearch;
+use app\models\FieldType;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\FieldType;
 
 /**
  * FieldController implements the CRUD actions for Field model.
@@ -33,11 +33,11 @@ class FieldController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Field::find(),
-        ]);
+        $searchModel = new FieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -49,9 +49,8 @@ class FieldController extends Controller
      */
     public function actionView($id)
     {
-		$model = $this->findModel($id);		
         return $this->render('view', [
-            'model' => $model,
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -139,6 +138,7 @@ class FieldController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+<<<<<<< HEAD
 
 	public function actionGetFieldsByType()
 	{
@@ -158,4 +158,6 @@ class FieldController extends Controller
 		}
 		return $is_admin;
 	}
+=======
+>>>>>>> Zbit_laptopid/master
 }
