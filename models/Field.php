@@ -62,7 +62,7 @@ class Field extends \yii\db\ActiveRecord
      */
     public function getType()
     {
-        return $this->hasOne(FieldType::className(), ['id' => 'type_id']);
+		return $this->hasOne(FieldType::className(), ['id' => 'type_id']);
     }
 
     /**

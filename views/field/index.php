@@ -12,23 +12,31 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="field-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+	<?php //echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
         <?= Html::a('Lisa komponent', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
+		'layout'  => "{items}\n{pager}",
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'type_id',
-            'name',
-            'model',
-            'value',
-            'unit',
-            'price',
-
-            ['class' => 'yii\grid\ActionColumn'],
+		   // nummerdus
+           // ['class' => 'yii\grid\SerialColumn'],
+				[
+					'attribute' => 'type_id',
+					'value'=>'type.name',
+				],
+				'name',
+				'model',
+				'value',
+				'unit',
+				'price',
+            [
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{update} {delete}',
+			],
         ],
     ]); ?>
 

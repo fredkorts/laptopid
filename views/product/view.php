@@ -8,7 +8,7 @@ use app\models\Field;
 use app\models\FieldType;
 
 $this->title = $model->mfr.' '.$model->model;
-if ($model->cut_price > 0){
+if ($soodus){
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Soodustooted'), 'url' => ['index']];
 } else {
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tooted'), 'url' => ['/product']];
@@ -29,24 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'mfr',
-            'model',
-			'description:ntext',
-            'price',
-            'cut_price',
-            'stock',
-            'active',
-            'highlighted',
-        ],
-    ]); ?>
-	<?php 
+<?php
+	 
 	$pf = ProductField::findOne(['product_id' => $model->id]);
-	if(count($pf) > 0) echo '<h3>Komponendid</h3>';
 		$id = $model->id;
 		$product_fields = ProductField::find()->where(['product_id' => $id])->all();
 		foreach($product_fields as $pf){
@@ -62,5 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				}								
 				echo $f->unit.' '.'<br>';
 			}
+	echo '<br>Hind: '.$model->price.'€<br>';
+	if($model->cut_price > 0) echo 'Soodushind: '.$model->cut_price.'€';
+	
 	?>
+	
+	<p>
+	Hind sisaldab 20% käibemaksu.
+	Võimalik lisada juurde: kõvaketast, mälu ja garantiid, täpsemalt laptopid@laptopid.ee
+	Sülearvutite transport üle Eesti tasuta!
+	</p>
 </div>
