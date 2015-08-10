@@ -100,6 +100,10 @@ class AdminController extends Controller
      */
     public function actionCreate()
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         /** @var User $user */
         $user = Yii::createObject([
             'class'    => User::className(),
@@ -125,6 +129,10 @@ class AdminController extends Controller
      */
     public function actionUpdate($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         Url::remember('', 'actions-redirect');
         $user = $this->findModel($id);
         $user->scenario = 'update';
@@ -148,6 +156,10 @@ class AdminController extends Controller
      */
     public function actionUpdateProfile($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         Url::remember('', 'actions-redirect');
         $user    = $this->findModel($id);
         $profile = $user->profile;
@@ -220,6 +232,10 @@ class AdminController extends Controller
      */
     public function actionDelete($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         if ($id == Yii::$app->user->getId()) {
             Yii::$app->getSession()->setFlash('danger', Yii::t('user', 'Oma kasutajat ei saa kustutada.'));
         } else {
@@ -237,6 +253,10 @@ class AdminController extends Controller
      */
     public function actionBlock($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         if ($id == Yii::$app->user->getId()) {
             Yii::$app->getSession()->setFlash('danger', Yii::t('user', 'Oma kasutajat blokeerida ei saa.'));
         } else {
@@ -284,4 +304,15 @@ class AdminController extends Controller
             }
         }
     }
+	
+	public function IsAdmin()
+	{
+		$identity = Yii::$app->user->identity;
+		$is_admin = false;
+		if(isset($identity))
+		{
+			$is_admin = $identity->isAdmin;	
+		}
+		return $is_admin;
+	}
 }

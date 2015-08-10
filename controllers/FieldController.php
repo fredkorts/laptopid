@@ -61,6 +61,10 @@ class FieldController extends Controller
      */
     public function actionCreate()
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         $model = new Field();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -80,6 +84,10 @@ class FieldController extends Controller
      */
     public function actionUpdate($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -99,6 +107,10 @@ class FieldController extends Controller
      */
     public function actionDelete($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -126,4 +138,23 @@ class FieldController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+	public function actionGetFieldsByType()
+	{
+		$id = Yii::$app->getRequest()->getQueryParam('id');
+		$fields = Field::find()->where(['type_id' => $id])->all();
+		\Yii::$app->response->format = 'json';
+		return $fields;
+	}
+	
+	public function IsAdmin()
+	{
+		$identity = Yii::$app->user->identity;
+		$is_admin = false;
+		if(isset($identity))
+		{
+			$is_admin = $identity->isAdmin;	
+		}
+		return $is_admin;
+	}
 }

@@ -25,7 +25,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
+ 
 <?php 
 $identity = Yii::$app->user->identity;
 $is_admin = false;
@@ -41,6 +41,7 @@ $pages = $command->queryAll();
 $menuItems[] = ['label' => 'Soodus', 'url' => ['/']];
 $menuItems[] = ['label' => 'Tooted', 'url' => ['/product']];
 $menuItems[] = ['label' => 'Ostukorv('.count(Yii::$app->cart->getItems()).')', 'url' => ['/cart/index']];
+$menuItems[] = ['label' => 'Võrdle('.count(Yii::$app->comparison->getItems()).')', 'url' => ['/comparison/index']];
 
 if($is_admin)
 {

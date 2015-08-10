@@ -15,7 +15,7 @@ $value = 0;
 	
 	<div class='hidden' method='get'><?= $form->field($model, 'type_id')->textInput() ?></div>	
 		
-	<b>Tüüp</b>
+	<strong>Tüüp</strong><br>
 	<input id="field-type_id_ex" class="form-control" type="text"><br>
 					
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>

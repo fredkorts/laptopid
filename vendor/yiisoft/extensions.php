@@ -113,6 +113,15 @@ return array (
       '@yii2mod/cart' => $vendorDir . '/yii2mod/yii2-cart',
     ),
   ),
+  'comparison/yii2-comparison' => 
+  array (
+    'name' => 'comparison/yii2-comparison',
+    'version' => '1.0',
+    'alias' => 
+    array (
+      '@comparison/comparison' => $vendorDir . '/comparison/yii2-comparison',
+    ),
+  ),
   'yiisoft/yii2-debug' => 
   array (
     'name' => 'yiisoft/yii2-debug',
