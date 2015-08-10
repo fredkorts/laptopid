@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii2mod\cart\Cart;
+use zxbodya\yii2\galleryManager\GalleryManagerAction;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -30,12 +31,26 @@ class ProductController extends Controller
         ];
     }
 
+	public function actions()
+	{
+		return [
+		   'galleryApi' => [
+			   'class' => GalleryManagerAction::className(),
+			   // mappings between type names and model classes (should be the same as in behaviour)
+			   'types' => [
+				   'product' => Product::className()
+			   ]
+		   ],
+		];
+	}
+
     /**
      * Lists all Product models.
      * @return mixed
      */ 
     public function actionIndex()
     {
+		
 		if(Yii::$app->getRequest()->getPathInfo() == 'product')
 		{
 			$models = Product::find()->where(['=', 'cut_price', 0])->all();		

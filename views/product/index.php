@@ -23,7 +23,8 @@ if(isset($identity))
     <h1><?= Html::encode($this->title) ?></h1>
 
 <?php
-	
+
+
 	if($is_admin)
 	{
 		if($soodus){
@@ -49,6 +50,12 @@ if(isset($identity))
 		}	
 	}
 	foreach($models as $m){
+		
+		foreach($m->getbehavior('galleryBehavior')->getimages() as $image) {
+			echo Html::a(Html::img($image->geturl('small')),['view', 'id' => $m->id]);
+			echo '<br>';
+		}
+		
 		if($is_admin)
 		{
 			echo Html::a(Yii::t('app', 'Muuda'), ['update', 'id' => $m->id], ['class' => 'btn btn-primary']);

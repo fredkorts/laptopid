@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use zxbodya\yii2\galleryManager\GalleryManager;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
@@ -10,7 +11,16 @@ use yii\widgets\ActiveForm;
 
 <div class="product-form">
 
+
     <?php $form = ActiveForm::begin(); ?>
+	<?= GalleryManager::widget(
+        [
+            'model' => $model,
+            'behaviorName' => 'galleryBehavior',
+            'apiRoute' => 'product/galleryApi'
+        ]
+    ); 
+	?>
 
     <?= $form->field($model, 'mfr')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
