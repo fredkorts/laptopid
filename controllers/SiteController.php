@@ -41,6 +41,10 @@ class SiteController extends \yii\web\Controller
 	
 	public function actionEditPage($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
 		$model = Page::findOne($id);
 		if($model == null)
 			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Page not found.']);
@@ -63,5 +67,15 @@ class SiteController extends \yii\web\Controller
 
         return $this->goHome();
     }
-
+	
+	public function IsAdmin()
+	{
+		$identity = Yii::$app->user->identity;
+		$is_admin = false;
+		if(isset($identity))
+		{
+			$is_admin = $identity->isAdmin;	
+		}
+		return $is_admin;
+	}
 }

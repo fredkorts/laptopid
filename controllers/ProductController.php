@@ -81,6 +81,10 @@ class ProductController extends Controller
      */
     public function actionCreate()
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         $model = new Product();
 			$model->setAttribute('mfr', '-');
 			$model->setAttribute('model', '-');
@@ -98,6 +102,10 @@ class ProductController extends Controller
 	
 	public function actionCreateCut()
 	{
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
        $model = new Product();
 			$model->setAttribute('mfr', '0');
 			$model->setAttribute('model', '0');
@@ -115,6 +123,10 @@ class ProductController extends Controller
 
 	public function actionCopy()
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
 		$id = Yii::$app->getRequest()->getQueryParam('id');
 		$product = Product::findOne($id);
 		$product_field = ProductField::find()->where(['product_id' => $id])->all();
@@ -173,6 +185,10 @@ class ProductController extends Controller
      */
     public function actionUpdate($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
         $model = $this->findModel($id);
 		
 		if($model->getAttribute('cut_price') == null){
@@ -192,6 +208,10 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
 		$product = Product::findOne($id);
         if($product->cut_price > 0){
 			$this->findModel($id)->delete();			
@@ -256,5 +276,16 @@ class ProductController extends Controller
 		$comparison = \Yii::$app->comparison;
 		$comparison->add($model);
 		return count($comparison->getItems());
+	}
+	
+	public function IsAdmin()
+	{
+		$identity = Yii::$app->user->identity;
+		$is_admin = false;
+		if(isset($identity))
+		{
+			$is_admin = $identity->isAdmin;	
+		}
+		return $is_admin;
 	}
 }

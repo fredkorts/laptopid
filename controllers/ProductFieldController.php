@@ -11,6 +11,10 @@ class ProductFieldController extends \yii\web\Controller
 {
     public function actionCreate()
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
 		$data = Yii::$app->request->post();
 		$field_id = intval($data['field_id']);
 		$product_id = intval($data['product_id']);
@@ -33,6 +37,10 @@ class ProductFieldController extends \yii\web\Controller
 	
     public function actionDelete($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
 		$url = '';
 		$product_field = ProductField::findOne($id);
 		$product_id = $product_field->getAttribute('product_id');
@@ -64,6 +72,10 @@ class ProductFieldController extends \yii\web\Controller
 	
     public function actionUpdate($id)
     {
+		if(!$this->IsAdmin())
+		{
+			return $this->render('error', ['name' => 'Not Found (#404)', 'message' => 'Puuduvad piisavad õigused.']);
+		}
 		$data = Yii::$app->request->post();
 		$model = $this->findModel($data['id']);
 		$id = intval($data['id']);
@@ -90,5 +102,15 @@ class ProductFieldController extends \yii\web\Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
+	
+	public function IsAdmin()
+	{
+		$identity = Yii::$app->user->identity;
+		$is_admin = false;
+		if(isset($identity))
+		{
+			$is_admin = $identity->isAdmin;	
+		}
+		return $is_admin;
+	}
 }
