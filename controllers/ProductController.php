@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Product;
+use app\models\ProductForMod;
 use app\models\ProductField;
 use app\models\Field;
 use app\models\FieldType;
@@ -281,9 +282,30 @@ class ProductController extends Controller
 			$field = Field::find()->where(['id' => $pf->getAttribute('field_id')])->all();
 			$model->field[] = $field;
 		}
+		$new_item = new ProductForMod();
+		$new_item->setAttribute('id', $model->getAttribute('id'));
+		$new_item->setAttribute('mfr', $model->getAttribute('mfr'));
+		$new_item->setAttribute('model', $model->getAttribute('model'));
+		$new_item->setAttribute('price', $model->getAttribute('price'));
+		$new_item->setAttribute('cut_price', $model->getAttribute('cut_price'));
+		$new_item->setAttribute('stock', $model->getAttribute('stock'));
+		$new_item->setAttribute('description', $model->getAttribute('description'));
+		
+		foreach($model->product_field as $pf)
+		{
+			$new_item->product_field[] = $pf;
+		}
+		foreach($model->field as $f)
+		{
+			$new_item->field[] = $f;
+		}
+		foreach($model->field_type as $ft)
+		{
+			$new_item->field_type[] = $ft;
+		}
 		
 		$cart = \Yii::$app->cart;
-		$cart->add($model);
+		$cart->add($new_item);
 		return count($cart->getItems());
 	}
 	
@@ -297,8 +319,31 @@ class ProductController extends Controller
 			$model->field[] = $field;
 		}
 		
+		//-------------------------------------------
+		$new_item = new ProductForMod();
+		$new_item->setAttribute('id', $model->getAttribute('id'));
+		$new_item->setAttribute('mfr', $model->getAttribute('mfr'));
+		$new_item->setAttribute('model', $model->getAttribute('model'));
+		$new_item->setAttribute('price', $model->getAttribute('price'));
+		$new_item->setAttribute('cut_price', $model->getAttribute('cut_price'));
+		$new_item->setAttribute('stock', $model->getAttribute('stock'));
+		$new_item->setAttribute('description', $model->getAttribute('description'));
+		
+		foreach($model->product_field as $pf)
+		{
+			$new_item->product_field[] = $pf;
+		}
+		foreach($model->field as $f)
+		{
+			$new_item->field[] = $f;
+		}
+		foreach($model->field_type as $ft)
+		{
+			$new_item->field_type[] = $ft;
+		}
+		
 		$comparison = \Yii::$app->comparison;
-		$comparison->add($model);
+		$comparison->add($new_item);
 		return count($comparison->getItems());
 	}
 	
