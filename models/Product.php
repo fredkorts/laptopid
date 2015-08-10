@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii2mod\cart\models\CartItemInterface;
+use zxbodya\yii2\galleryManager\GalleryBehavior;
 
 /**
  * This is the model class for table "product".
@@ -33,7 +34,39 @@ class Product extends \yii\db\ActiveRecord implements CartItemInterface
     {
         return 'product';
     }
-
+	
+	public function behaviors()
+	{
+		return [
+			 'galleryBehavior' => [
+				 'class' => GalleryBehavior::className(),
+				 'type' => 'product',
+				 'extension' => 'jpg',
+				 'directory' => Yii::getAlias('@webroot') . '/images/product',
+				 'url' => Yii::getAlias('@web') . '/images/product',
+				 'versions' => [
+					 'small' => function ($img) {
+						 /** @var \Imagine\Image\ImageInterface $img */
+						 return $img
+							 ->copy()
+							 ->thumbnail(new \Imagine\Image\Box(200, 200));
+					 },
+					 'medium' => function ($img) {
+						 /** @var Imagine\Image\ImageInterface $img */
+						 $dstSize = $img->getSize();
+						 $maxWidth = 800;
+						 if ($dstSize->getWidth() > $maxWidth) {
+							 $dstSize = $dstSize->widen($maxWidth);
+						 }
+						 return $img
+							 ->copy()
+							 ->resize($dstSize);
+					 },
+				 ]
+			 ]
+		];
+	}
+	
     /**
      * @inheritdoc
      */

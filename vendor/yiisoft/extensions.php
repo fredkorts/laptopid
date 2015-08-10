@@ -122,4 +122,22 @@ return array (
       '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug',
     ),
   ),
+  'yiisoft/yii2-imagine' => 
+  array (
+    'name' => 'yiisoft/yii2-imagine',
+    'version' => '2.0.3.0',
+    'alias' => 
+    array (
+      '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
+    ),
+  ),
+  'zxbodya/yii2-gallery-manager' => 
+  array (
+    'name' => 'zxbodya/yii2-gallery-manager',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@zxbodya/yii2/galleryManager' => $vendorDir . '/zxbodya/yii2-gallery-manager',
+    ),
+  ),
 );

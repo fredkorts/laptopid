@@ -25,7 +25,7 @@ use app\models\Product;
 				
 				echo '<input autocomplete="off" id="productfield-field_id_'.$idx.'" value="'.$pf->getAttribute('field_id').'" class="form-control" type="text"><br>';;
 				echo $this->render('/product-field/_form', [ 'model' => $pf ]);
-				echo Html::a(Yii::t('app', 'Kustuta komponent'), ['/product-field/delete', 'id' => 
+				echo Html::a(Yii::t('app', 'Eemalda komponent'), ['/product-field/delete', 'id' => 
 								$pf->id], 
 								[ 'class' => 'btn btn-danger', 'data' => 
 								[ 'confirm' => Yii::t('app', 'Oled sa kindel, et soovid seda toodet kustutada?'), 
